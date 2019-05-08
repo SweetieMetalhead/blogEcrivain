@@ -1,5 +1,5 @@
 <?php
-$title = "PNL - Votre compte";
+$title = "Aller simple pour l'Alaska - Votre compte";
 
 ob_start(); ?>
 

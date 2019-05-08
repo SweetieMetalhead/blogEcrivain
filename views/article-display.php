@@ -1,5 +1,5 @@
 <?php
-$title = 'Le blog du PNL';
+$title = 'Chapitre ' . $chapter['number'];
 
 ob_start();?>
 <div class="news">
@@ -9,7 +9,6 @@ ob_start();?>
   </h3>
   <p>
     <?= htmlspecialchars($post['content']) ?> <br/>
-    <em>Article écrit par <?= htmlspecialchars($post['author']) ?></em>
   </p>
 </div>
 <hr>

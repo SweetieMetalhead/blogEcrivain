@@ -2,10 +2,10 @@ function pseudoVerify(pseudo) {
   let advice;
   let regexPattern = new RegExp("^([a-zA-Z0-9-_]{3,36})$");
   if (!regexPattern.test(pseudo)) {
-    advice = "Votre nom de compte doit faire entre 3 et 36 caractères et ne comporter aucun signe spécial sauf '-' et '_'.";
+    advice = "Votre pseudo doit faire entre 3 et 36 caractères et ne comporter aucun signe spécial sauf '-' et '_'.";
     return [false, advice];
   } else {
-    advice = "";
+    advice = "Votre pseudo";
     return [true, advice];
   }
 }
@@ -17,7 +17,7 @@ function emailVerify(email) {
     advice = "Votre email n'est pas valide !";
     return [false, advice];
   } else {
-    advice = "";
+    advice = "Votre email";
     return [true, advice];
   }
 }
@@ -29,7 +29,7 @@ function passwordVerify(password) {
     advice = "Votre mot de passe doit contenir entre 5 et 64 caractères.";
     return [false, advice];
   } else {
-    advice = "";
+    advice = "Votre mot de passe";
     return [true, advice];
   }
 }
@@ -40,7 +40,7 @@ function confirmPasswordVerify(password, confirmation) {
     advice = "Le mot de passe et la confirmation doivent correspondre !";
     return [false, advice];
   } else {
-    advice = "";
+    advice = "Confirmez votre mot de passe";
     return [true, advice];
   }
 }

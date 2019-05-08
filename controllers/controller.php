@@ -6,8 +6,8 @@ require_once('models/CommentManager.php');
 require_once('models/UserManager.php');
 
 function home() {
-  $postManager = new PaulOhl\Blog\Model\PostManager();
-  $posts = $postManager->getPosts();
+  // $postManager = new PaulOhl\Blog\Model\PostManager();
+  // $posts = $postManager->getPosts();
 
   require('views/home-display.php');
 }
