@@ -1,0 +1,107 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
+img{
+  width: 70%;
+  margin-left: 15%;
+  margin-right: auto;
+}
+
+h1, h2{
+  text-align: center;
+}
+
+/* News */
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
+.news{
+  display: inline-block;
+  padding: 10px;
+  margin: 20px 15%;
+  width: 70%;
+  text-align: justify;
+  border: black solid 1px;
+  border-radius: 5px;
+  box-shadow: 4px 4px 4px grey;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.news:hover{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_France.svg/1200px-Flag_of_France.svg.png');
+  background-size: cover;
+  color: blue;
+  animation: clignotantBlanc 1s infinite;
+}
+
+@keyframes clignotantBlanc {
+  0%{
+    color: blue;
+  }
+  33%{
+    color: white;
+  }
+  66%{
+    color: red;
+  }
+}
+
+header{
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.title{
+  display: flex;
+}
+
+.title img{
+  width: 70px;
+  height: 70px;
+}
+
+.title h2{
+  text-align: left;
+}
+
+.menu ul{
+  display: flex;
+  list-style: none;
+}
+.menu li{
+  margin: 5px;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+.menu li:hover{
+  background-color: rgba(50, 50, 50, 0.9);
+  border-radius: 8px;
+  box-shadow: 4px 4px 6px 2px grey;
+  transition-duration: 1s;
+}
+.menu li:hover a{
+  color: white;
+}
+
+/* Form */
+.left{
+  text-align: right;
+}
+
+.warning{
+  color: red;
+  margin: 0;
+  padding: 0;
+}
