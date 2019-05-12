@@ -11,11 +11,11 @@ try {
       case 'home':
         home();
         break;
-      case 'article':
-        if (isset($_GET['article']) && $_GET['article'] > 0) {
-          article();
+      case 'chapter':
+        if (isset($_GET['chapterid']) && $_GET['chapterid'] > 0) {
+          chapter(htmlspecialchars($_GET['chapterid']));
         } else {
-          throw new Exception("Erreur : Article invalide");
+          throw new Exception("Erreur : Numéro de chapitre invalide");
         }
         break;
       case 'addComment':
@@ -32,14 +32,8 @@ try {
       case 'signin':
         userSignIn(htmlspecialchars($_POST['pseudo']), htmlspecialchars($_POST['password']), htmlspecialchars($_POST['email']));
         break;
-      case 'signin-page':
-        displaySignInPage();
-        break;
       case 'login':
         userLogIn(htmlspecialchars($_POST['email']), htmlspecialchars($_POST['password']));
-        break;
-      case 'login-page':
-        displayLogInPage();
         break;
       case 'logout':
         userLogout();
@@ -70,12 +64,12 @@ try {
         }
         break;
       case 'writearticle':
-        if ($_SESSION['auth'] == "admin") {
-          displayWritePostPage();
-        }
+        // if ($_SESSION['auth'] == "admin") {
+          displayWriteChapterPage();
+        // }
         break;
       case 'addarticle':
-        addPost($_SESSION['id'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']));
+        addPost(htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']));
       default:
         home();
         break;

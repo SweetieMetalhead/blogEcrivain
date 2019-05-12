@@ -11,9 +11,9 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <title><?= $title ?></title>
-    <link href="public/css/style.css" rel="stylesheet" />
+    <link href="public/css/style.css" rel="stylesheet"/>
   </head>
-  <body>
+  <body class="blue-grey lighten-3">
     <header>
       <nav class="nav-wrapper blue darken-2">
         <div class="container">
@@ -23,8 +23,7 @@
           </a>
           <ul class="right hide-on-med-and-down">
             <li><a href="#photos" class="">Chapitres</a></li>
-            <li><a href="#services" class="">À propos</a></li>
-            <li><a href="#contact" class="">Contact</a></li>
+            <li><a href="index.php#about" class="">À propos</a></li>
             <?php if (!isset($_SESSION['pseudo'])) { ?>
               <li><a href='#login-signin' class='modal-trigger'>Inscription/Connexion</a></li>
             <?php } else { ?>
@@ -47,25 +46,27 @@
     </header>
 
     <div class="modal" id="login-signin">
-        <div class="modal-content">
-          <div class="row">
-            <ul class="tabs">
-              <li class="tab col s6">
-                <a href="#signin" class="indigo-text text-darken-4">Inscription</a>
-              </li>
-              <li class="tab col s6">
-                <a href="#login" class="indigo-text text-darken-4">Connexion</a>
-              </li>
-            </ul>
-            <div class="col s12" id="signin">
-              <?php require('views/signin-form.php'); ?>
-            </div>
-            <div class="col s12" id="login">
-              <?php require('views/login-form.php'); ?>
-            </div>
+      <div class="modal-content">
+        <div class="row">
+          <ul class="tabs">
+            <li class="tab col s6">
+              <a href="#signin" class="indigo-text text-darken-4">Inscription</a>
+            </li>
+            <li class="tab col s6">
+              <a href="#login" class="indigo-text text-darken-4">Connexion</a>
+            </li>
+          </ul>
+          <div class="col s12" id="signin">
+            <?php require('views/signin-form.php'); ?>
+          </div>
+          <div class="col s12" id="login">
+            <?php require('views/login-form.php'); ?>
           </div>
         </div>
       </div>
+    </div>
+
+
 
     <?= $content ?>
 
@@ -79,6 +80,10 @@
         $('.parallax').parallax();
         $('.tabs').tabs();
         $('.modal').modal();
+        $('.datepicker').datepicker({});
+        $('.timepicker').timepicker({
+          twelveHour: false
+        });
       });
     </script>
   </body>

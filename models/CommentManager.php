@@ -4,11 +4,11 @@ namespace PaulOhl\Blog\Model;
 
 class CommentManager extends Manager {
 
-  public function getComments($postID) {
+  public function getComments($chapterID) {
     $db = $this->dbConnect();
 
-    $req = $db->prepare('SELECT Members.pseudo AS author, Comments.content AS content, DATE_FORMAT(Comments.comment_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM Comments, Members WHERE Comments.author_id = Members.id AND Comments.post_id = ? ORDER BY comment_date DESC');
-    $req->execute(array($postID));
+    $req = $db->prepare('SELECT Users.pseudo AS author, Comments.content AS content, DATE_FORMAT(Comments.comment_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM Comments, Users WHERE Comments.author_id = Users.id AND Comments.post_id = ? ORDER BY comment_date DESC');
+    $req->execute(array($chapterID));
 
     return $req;
   }

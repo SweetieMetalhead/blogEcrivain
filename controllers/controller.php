@@ -1,35 +1,36 @@
 <?php
 
 //require('models/model.php');
-require_once('models/PostManager.php');
+require_once('models/ChapterManager.php');
 require_once('models/CommentManager.php');
 require_once('models/UserManager.php');
 
 function home() {
-  // $postManager = new PaulOhl\Blog\Model\PostManager();
-  // $posts = $postManager->getPosts();
+  $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
+  $firstChapter = $chapterManager->getChapter(1, 2);
+  $lastChapter = $chapterManager->getLastChapter();
 
   require('views/home-display.php');
 }
 
-function article() {
-  $postManager = new PaulOhl\Blog\Model\PostManager();
+function chapter($chapterID) {
+  $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
   $commentManager = new PaulOhl\Blog\Model\CommentManager();
 
-  $post = $postManager->getPost(htmlspecialchars($_GET['article']));
-  $comments = $commentManager->getComments(htmlspecialchars($_GET['article']));
+  $chapter = $chapterManager->getChapter($chapterID, 1);
+  $comments = $commentManager->getComments($chapterID);
 
-  require('views/article-display.php');
+  require('views/chapter-display.php');
 }
 
-function addComment($postID, $authorID, $comment) {
+function addComment($chapterID, $authorID, $comment) {
   $commentManager = new PaulOhl\Blog\Model\CommentManager();
-  $affectedLines = $commentManager->postComment($postID, $authorID, $comment);
+  $affectedLines = $commentManager->postComment($chapterID, $authorID, $comment);
 
   if ($affectedLines === false) {
     throw new Exception('Impossible d\'ajouter le commentaire !');
   } else {
-    header('Location: index.php?action=article&article=' . $postID);
+    header('Location: index.php?action=article&article=' . $chapterID);
   }
 }
 
@@ -166,13 +167,13 @@ function userDeleteAccount($userID) {
   }
 }
 
-function displayWritePostPage() {
+function displayWriteChapterPage() {
   require('views/article-write.php');
 }
 
-function addPost($authorID, $title, $content) {
-  $postManager = new PaulOhl\Blog\Model\PostManager();
-  $affectedLines = $postManager->addPost($authorID, $title, $content);
+function addChapter($authorID, $title, $content) {
+  $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
+  $affectedLines = $chapterManager->addChapter($authorID, $title, $content);
 
   if ($affectedLines) {
     header('Location: index.php?action=home');

@@ -10,7 +10,7 @@ class UserManager extends Manager {
 
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
-    $req = $db->prepare('INSERT INTO Members(pseudo, password, email, member_date, member_auth) VALUES(?, ?, ?, NOW(), \'normie\')');
+    $req = $db->prepare('INSERT INTO Members(pseudo, password, email, member_date, member_auth) VALUES(?, ?, ?, NOW(), \'basic\')');
     $affectedLines = $req->execute(array($pseudo, $hash, $email));
 
     return $affectedLines;
