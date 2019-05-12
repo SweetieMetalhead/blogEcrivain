@@ -10,7 +10,7 @@ class UserManager extends Manager {
 
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
-    $req = $db->prepare('INSERT INTO Members(pseudo, password, email, member_date, member_auth) VALUES(?, ?, ?, NOW(), \'basic\')');
+    $req = $db->prepare('INSERT INTO Users(pseudo, password, email, signin_date, authorization) VALUES(?, ?, ?, NOW(), \'basic\')');
     $affectedLines = $req->execute(array($pseudo, $hash, $email));
 
     return $affectedLines;
@@ -19,7 +19,7 @@ class UserManager extends Manager {
   public function checkExistingPseudo($pseudo) {
     $db = $this->dbConnect();
 
-    $req = $db->prepare('SELECT id FROM Members WHERE pseudo = ?');
+    $req = $db->prepare('SELECT id FROM Users WHERE pseudo = ?');
     $req->execute(array($pseudo));
     $response = $req->fetch();
 
@@ -33,7 +33,7 @@ class UserManager extends Manager {
   public function checkExistingEmail($email) {
     $db = $this->dbConnect();
 
-    $req = $db->prepare('SELECT id FROM Members WHERE email = ?');
+    $req = $db->prepare('SELECT id FROM Users WHERE email = ?');
     $req->execute(array($email));
     $response = $req->fetch();
 
@@ -47,7 +47,7 @@ class UserManager extends Manager {
   public function getInfo($email) {
     $db = $this->dbConnect();
 
-    $req = $db->prepare('SELECT * FROM Members WHERE email = ?');
+    $req = $db->prepare('SELECT * FROM Users WHERE email = ?');
     $req->execute(array($email));
     $response = $req->fetch();
 
@@ -57,7 +57,7 @@ class UserManager extends Manager {
   public function changePseudo($userID, $newPseudo){
     $db = $this->dbConnect();
 
-    $req = $db->prepare('UPDATE Members SET pseudo = ? WHERE Members.id = ?');
+    $req = $db->prepare('UPDATE Users SET pseudo = ? WHERE Users.id = ?');
     $affectedLines = $req->execute(array($newPseudo, $userID));
 
     return $affectedLines;
@@ -66,7 +66,7 @@ class UserManager extends Manager {
   public function changeEmail($userID, $newEmail){
     $db = $this->dbConnect();
 
-    $req = $db->prepare('UPDATE Members SET email = ? WHERE Members.id = ?');
+    $req = $db->prepare('UPDATE Users SET email = ? WHERE Users.id = ?');
     $affectedLines = $req->execute(array($newEmail, $userID));
 
     return $affectedLines;
@@ -77,7 +77,7 @@ class UserManager extends Manager {
 
     $hash = password_hash($newPassword, PASSWORD_DEFAULT);
 
-    $req = $db->prepare('UPDATE Members SET password = ? WHERE Members.id = ?');
+    $req = $db->prepare('UPDATE Users SET password = ? WHERE Users.id = ?');
     $affectedLines = $req->execute(array($hash, $userID));
 
     return $affectedLines;
@@ -86,7 +86,7 @@ class UserManager extends Manager {
   public function deleteAccount($userID) {
     $db = $this->dbConnect();
 
-    $req = $db->prepare('DELETE FROM Members WHERE Members.id = ?');
+    $req = $db->prepare('DELETE FROM Users WHERE Users.id = ?');
     $affectedLines = $req->execute(array($userID));
 
     return $affectedLines;

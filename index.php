@@ -30,10 +30,10 @@ try {
         }
         break;
       case 'signin':
-        userSignIn(htmlspecialchars($_POST['pseudo']), htmlspecialchars($_POST['password']), htmlspecialchars($_POST['email']));
+        userSignIn(htmlspecialchars($_POST['signinpseudo']), htmlspecialchars($_POST['signinpassword']), htmlspecialchars($_POST['signinemail']));
         break;
       case 'login':
-        userLogIn(htmlspecialchars($_POST['email']), htmlspecialchars($_POST['password']));
+        userLogIn(htmlspecialchars($_POST['loginemail']), htmlspecialchars($_POST['loginpassword']));
         break;
       case 'logout':
         userLogout();

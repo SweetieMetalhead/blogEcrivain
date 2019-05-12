@@ -27,7 +27,14 @@
             <?php if (!isset($_SESSION['pseudo'])) { ?>
               <li><a href='#login-signin' class='modal-trigger'>Inscription/Connexion</a></li>
             <?php } else { ?>
-              <li><a href='index.php?action=manage'><?= $_SESSION['pseudo'] ?></li>
+              <!-- Dropdown Trigger -->
+              <li><a class='dropdown-trigger' href='#' data-target='usermenu'><?= $_SESSION['pseudo'] ?></a></li>
+
+              <!-- Dropdown Structure -->
+              <ul id='usermenu' class='dropdown-content'>
+                <li><a href="index.php?action=manage">Profil</a></li>
+                <li><a href="index.php?action=logout">Se déconnecter</a></li>
+              </ul>
             <?php }?>
           </ul>
           <ul class="sidenav grey lighten-2" id="mobile-menu">
@@ -83,6 +90,11 @@
         $('.datepicker').datepicker({});
         $('.timepicker').timepicker({
           twelveHour: false
+        });
+        $('.dropdown-trigger').dropdown({
+          coverTrigger: false,
+          hover: true,
+          constrainWidth: false
         });
       });
     </script>

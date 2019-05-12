@@ -5,11 +5,17 @@ ob_start(); ?>
 
 <section class="container row">
   <h1 class="center">Un aller simple pour l'Alaska</h1>
+  <h3 class="center">Un livre de Jean Forteroche </h3>
+  <h2 class="center"><i class="material-icons large">explore</i></h2>
 
+  <div class="container">
+    <h3 class="center">Les Chapitres</h3>
+    <hr>
+  </div>
   <?php
   for ($i=0; $i <= 1; $i++) {
     $data = ($i == 0) ? $firstChapter : $lastChapter ?>
-    <div class="card col s12 m6">
+    <div class="card col s12 m6 hoverable">
       <!-- <div class="card-image">
         <img src="https://eatfresh.org/sites/default/files/styles/645x417large/public/recipe/media/eggplant-tomato-curry.jpg?itok=jBuO7vIX" alt="Curry">
         <a href="#" class="halfway-fab btn-floating pink pulse"><i class="material-icons">favorite</i></a>

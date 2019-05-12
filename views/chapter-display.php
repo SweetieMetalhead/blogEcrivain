@@ -33,7 +33,6 @@ ob_start();?>
   }?>
 
   <?php
-  echo print_r($comments);
   while ($data = $comments->fetch()) {
   ?>
     <div class="comment">

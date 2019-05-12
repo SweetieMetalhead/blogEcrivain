@@ -1,5 +1,5 @@
 Comment intégrer les retours à la ligne dans la bdd ?
-wtf comments ?
+
 Changer le système d'affichage de l'utilisateur afin de permettre d'aller voir d'autres comptes. -> ne plus utiliser $_SESSION
 
 Rouge quand Entrée mauvaise dans le signin
