@@ -38,8 +38,8 @@ function userSignIn($pseudo, $password, $email) {
   //testing regex match
   if (preg_match("#^([a-zA-Z0-9-_]{3,36})$#", $pseudo) && filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 5) {
     $userManager = new PaulOhl\Blog\Model\UserManager();
-    if($userManager->checkExistingPseudo($pseudo)) {
-      if ($userManager->checkExistingEmail($email)) {
+    if($userManager->checkExistingUser($pseudo)) {
+      if ($userManager->checkExistingUser($email)) {
         $affectedLines = $userManager->signIn($pseudo, $password, $email);
 
         if ($affectedLines === false) {
@@ -74,7 +74,7 @@ function userLogIn($email, $password) {
     $_SESSION['auth'] = $response['member_auth'];
     header('Location: index.php?action=home');
   } else {
-    header('Location: index.php?action=login-page&response=wrongpassword');
+    header('Location: index.php?action=home&logintry=wrongpassword');
   }
 }
 
@@ -96,7 +96,7 @@ function userChangeInfo($userID, $parameter, $newInfo) {
   switch ($parameter) {
     case 'pseudo':
       if (preg_match("#^([a-zA-Z0-9-_]{3,36})$#", $newInfo)) {
-        if($userManager->checkExistingPseudo($newInfo)) {
+        if($userManager->checkExistingUser($newInfo)) {
           $affectedLines = $userManager->changePseudo($userID, $newInfo);
         } else {
           throw new Exception('Pseudo déjà utilisé par un autre utilisateur.');
@@ -107,7 +107,7 @@ function userChangeInfo($userID, $parameter, $newInfo) {
       break;
     case 'email':
       if(filter_var($newInfo, FILTER_VALIDATE_EMAIL)) {
-        if ($userManager->checkExistingEmail($newInfo)) {
+        if ($userManager->checkExistingUser($newInfo)) {
           $affectedLines = $userManager->changeEmail($userID, $newInfo);
         } else {
           throw new Exception('Email déjà utilisé par un autre utilisateur.');

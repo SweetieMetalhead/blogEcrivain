@@ -2,7 +2,7 @@
 
 namespace PaulOhl\Blog\Model;
 
-require_once('models/Manager.php');
+require_once('/Applications/MAMP/htdocs/blogEcrivain/models/Manager.php');
 
 class UserManager extends Manager {
   public function signIn($pseudo, $password, $email){
@@ -16,25 +16,15 @@ class UserManager extends Manager {
     return $affectedLines;
   }
 
-  public function checkExistingPseudo($pseudo) {
+  public function checkExistingUser($user) { //finds user by email or pseudo
     $db = $this->dbConnect();
 
-    $req = $db->prepare('SELECT id FROM Users WHERE pseudo = ?');
-    $req->execute(array($pseudo));
-    $response = $req->fetch();
-
-    if ($response == null) {
-      return true;
+    if (filter_var($user, FILTER_VALIDATE_EMAIL)) {
+      $req = $db->prepare('SELECT id FROM Users WHERE email = ?');
     } else {
-      return false;
+      $req = $db->prepare('SELECT id FROM Users WHERE pseudo = ?');
     }
-  }
-
-  public function checkExistingEmail($email) {
-    $db = $this->dbConnect();
-
-    $req = $db->prepare('SELECT id FROM Users WHERE email = ?');
-    $req->execute(array($email));
+    $req->execute(array($user));
     $response = $req->fetch();
 
     if ($response == null) {

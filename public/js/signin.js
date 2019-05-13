@@ -42,3 +42,8 @@ form.addEventListener("submit", function(e) {
 document.getElementById('lalala').addEventListener("click", function(){
   console.log(pseudoCheck + ", " + emailCheck + ", " + passwordCheck + ", " + confirmCheck);
 });
+
+function open(whichOne) {
+  var instance = M.Modal.getInstance(document.getElementById('login-signin'));
+  instance.open();
+}
