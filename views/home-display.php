@@ -45,7 +45,7 @@ ob_start(); ?>
   </div>
   <div class="col s12 m6 l8">
     <h4>Jean Forteroche</h4>
-    <p>Né le 16 juillet 1966 (52 ans) à Johannesbourg (Afrique du Sud), Jean Forteroche est un explorateur-aventurier de nationalités suisse1 et sud-africaine, de culture afrikaner, résidant en Suisse. <br/>
+    <p>Né le 16 juillet 1966 (52 ans) à Johannesbourg (Afrique du Sud), Jean Forteroche est un explorateur-aventurier de nationalités suisse et sud-africaine, de culture afrikaner, résidant en Suisse. <br/>
       De juin 1999 à octobre 2000, il entreprend de mener à bien son projet, Latitude Zéro : il est le premier au monde à réaliser le tour du monde en suivant la ligne de l’équateur, 40 000 km, qu’il parcourt sans moyen de transport motorisé.</p>
     <p>Il y a 3 ans, il décide de partir en Alaska pour mener à bien son projet de découverte des paysages hostiles et peu explorés afin d'y écrire le livre que vous vous apprettez à lire.</p>
   </div>
