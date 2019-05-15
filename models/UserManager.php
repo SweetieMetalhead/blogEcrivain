@@ -34,11 +34,16 @@ class UserManager extends Manager {
     }
   }
 
-  public function getInfo($email) {
+  public function getInfo($user) { // fetches the data from the user's pseudo or email
     $db = $this->dbConnect();
 
-    $req = $db->prepare('SELECT * FROM Users WHERE email = ?');
-    $req->execute(array($email));
+    if (filter_var($user, FILTER_VALIDATE_EMAIL)) {
+      $req = $db->prepare('SELECT * FROM Users WHERE email = ?');
+    } else {
+      $req = $db->prepare('SELECT * FROM Users WHERE pseudo = ?');
+    }
+
+    $req->execute(array($user));
     $response = $req->fetch();
 
     return $response;

@@ -6,3 +6,10 @@ Rouge quand Entrée mauvaise dans le signin
 
 
 à la fin : adapter le menu portable au menu pc
+
+
+
+Finir le systemen d’adminsitration des posts (supprimer, editer, differencier entre administrateur et ecrivain)
+Signalement des commentaires
+	La question des hashs et la sécurité en général
+Aborder la nouvelle version du site

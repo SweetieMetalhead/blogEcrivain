@@ -48,11 +48,11 @@ class ChapterManager extends Manager {
     return $result;
   }
 
-  public function addChapter($authorID, $title, $content) {
+  public function addChapter($chapterNumber, $title, $content) {
     $db = $this->dbConnect();
 
-    $req = $db->prepare('INSERT INTO Chapters(author_id, title, content, post_date) VALUES(?, ?, ?, NOW())');
-    $affectedLines = $req->execute(array($authorID, $title, $content));
+    $req = $db->prepare('INSERT INTO Chapters(chapter_number, title, content, post_date) VALUES(?, ?, ?, NOW())');
+    $affectedLines = $req->execute(array($chapterNumber, $title, $content));
 
     return $affectedLines;
   }

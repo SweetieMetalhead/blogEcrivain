@@ -5,19 +5,13 @@ ob_start(); ?>
 
 <h1>Votre compte :</h1>
 
-<h3> <?= $_SESSION['pseudo'] ?> </h3>
+<h3> <?= $userInfo['pseudo'] ?> </h3>
 
-<p>email : <?= $_SESSION['email'] ?></p>
-
-<?php
-if ($_SESSION['auth'] == "admin") {
-  echo "<a href='index.php?action=writearticle'>Ecrire un article</a>";
-}
-?>
+<p>email : <?= $userInfo['email'] ?></p>
 
 <hr>
 
-<form id="changepseudo" action="index.php?action=changepseudo" method="post">
+<!-- <form id="changepseudo" action="index.php?action=changepseudo" method="post">
   <p>
     <label>Changer de pseudo : <input type="text" name="newPseudo"></label>
     <input type="submit" value="Changer !">
@@ -49,7 +43,7 @@ if ($_SESSION['auth'] == "admin") {
 <a id="accountdelete" href=""><p>Supprimer le compte</p></a>
 
 <script src="public/js/verification.js"></script>
-<script src="public/js/user-manage.js"></script>
+<script src="public/js/user-manage.js"></script> -->
 
 <?php $content = ob_get_clean();
 

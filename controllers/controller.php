@@ -68,10 +68,7 @@ function userLogIn($email, $password) {
   $response = $userManager->getInfo($email);
 
   if (password_verify($password, $response['password'])) {
-    $_SESSION['id'] = $response['id'];
-    $_SESSION['pseudo'] = $response['pseudo'];
-    $_SESSION['email'] = $response['email'];
-    $_SESSION['auth'] = $response['member_auth'];
+    $_SESSION['id'] = password_hash($response['pseudo'], PASSWORD_DEFAULT)
     header('Location: index.php?action=home');
   } else {
     header('Location: index.php?action=home&logintry=wrongpassword');
@@ -87,7 +84,10 @@ function userLogout() {
   header('Location: index.php?action=home');
 }
 
-function userManage() {
+function userManage($user) {
+  $userManager = new PaulOhl\Blog\Model\UserManager();
+  $userInfo = $userManager->getInfo($user);
+
   require('views/user-manage-display.php');
 }
 
@@ -168,7 +168,7 @@ function userDeleteAccount($userID) {
 }
 
 function displayWriteChapterPage() {
-  require('views/article-write.php');
+  require('views/chapter-write.php');
 }
 
 function addChapter($authorID, $title, $content) {

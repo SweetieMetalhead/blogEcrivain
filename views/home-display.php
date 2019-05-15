@@ -16,10 +16,6 @@ ob_start(); ?>
   for ($i=0; $i <= 1; $i++) {
     $data = ($i == 0) ? $firstChapter : $lastChapter ?>
     <div class="card col s12 m6 hoverable">
-      <!-- <div class="card-image">
-        <img src="https://eatfresh.org/sites/default/files/styles/645x417large/public/recipe/media/eggplant-tomato-curry.jpg?itok=jBuO7vIX" alt="Curry">
-        <a href="#" class="halfway-fab btn-floating pink pulse"><i class="material-icons">favorite</i></a>
-      </div> -->
       <div class="card-content">
         <h6 class="grey-text"><?php echo ($i == 0) ? "Premier chapitre" : "Dernier chapitre paru" ?></h6>
         <span class="card-title">Chapitre <?= $data['chapter_number'] . " : " . $data['title'] ?></span>
