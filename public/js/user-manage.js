@@ -1,6 +1,6 @@
-let changePseudo = document.getElementById('changepseudo');
-let changeEmail = document.getElementById('changeemail');
-let changePassword = document.getElementById('changepassword');
+changePseudo = document.getElementById('changepseudo');
+changeEmail = document.getElementById('changeemail');
+changePassword = document.getElementById('changepassword');
 
 changePseudo.addEventListener("submit", function(e) {
   let verification = pseudoVerify(changePseudo.elements.newPseudo.value);
@@ -18,8 +18,8 @@ changeEmail.addEventListener("submit", function(e) {
   }
 });
 
-let passwordCheck = false;
-let confirmCheck = false;
+passwordCheck = false;
+confirmCheck = false;
 
 changePassword.elements.newpassword.addEventListener("blur", function() {
   let verification = passwordVerify(changePassword.elements.newpassword.value);

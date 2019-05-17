@@ -32,7 +32,10 @@
 
               <!-- Dropdown Structure -->
               <ul id='usermenu' class='dropdown-content'>
-                <li><a href="index.php?action=manage">Profil</a></li>
+                <li><a href="index.php?action=manage&pseudo=<?= $_SESSION['pseudo'] ?>">Profil</a></li>
+                <?php if($_SESSION['pseudo'] == "Jean_Forteroche") {?>
+                  <li><a href="index.php?action=writechapter">Ecrire un chapitre</a></li>
+                <?php } ?>
                 <li><a href="index.php?action=logout">Se déconnecter</a></li>
               </ul>
             <?php }?>
@@ -96,6 +99,7 @@
           hover: false,
           constrainWidth: false
         });
+        $('.collapsible').collapsible();
       });
     </script>
   </body>

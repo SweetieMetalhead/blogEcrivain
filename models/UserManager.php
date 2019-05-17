@@ -52,7 +52,7 @@ class UserManager extends Manager {
   public function changePseudo($userID, $newPseudo){
     $db = $this->dbConnect();
 
-    $req = $db->prepare('UPDATE Users SET pseudo = ? WHERE Users.id = ?');
+    $req = $db->prepare('UPDATE Users SET pseudo = ? WHERE id = ?');
     $affectedLines = $req->execute(array($newPseudo, $userID));
 
     return $affectedLines;

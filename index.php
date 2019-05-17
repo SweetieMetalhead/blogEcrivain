@@ -39,31 +39,31 @@ try {
         userLogout();
         break;
       case 'manage':
-        if (isset($_SESSION['pseudo'])) {
-          userManage();
+        if (isset($_GET['pseudo'])) {
+          userManage(htmlspecialchars($_GET['pseudo']));
         }
         break;
       case 'changepseudo':
         if (isset($_SESSION['pseudo'])) {
-          userChangeInfo($_SESSION['id'], 'pseudo', htmlspecialchars($_POST['newPseudo']));
+          userChangeInfo($_SESSION['pseudo'], 'pseudo', htmlspecialchars($_POST['newpseudo']));
         }
         break;
       case 'changeemail':
         if (isset($_SESSION['pseudo'])) {
-          userChangeInfo($_SESSION['id'], 'email', htmlspecialchars($_POST['newEmail']));
+          userChangeInfo($_SESSION['pseudo'], 'email', htmlspecialchars($_POST['newemail']));
         }
         break;
       case 'changepassword':
           if (isset($_SESSION['pseudo'])) {
-            userChangePassword($_SESSION['id'], $_SESSION['email'], 'password', htmlspecialchars($_POST['oldpassword']), htmlspecialchars($_POST['newpassword']), htmlspecialchars($_POST['passwordconfirm']));
+            userChangePassword($_SESSION['pseudo'], htmlspecialchars($_POST['oldpassword']), htmlspecialchars($_POST['newpassword']), htmlspecialchars($_POST['passwordconfirm']));
           }
         break;
       case 'deleteaccount':
         if(isset($_SESSION['pseudo'])) {
-          userDeleteAccount($_SESSION['id']);
+          userDeleteAccount($_SESSION['pseudo']);
         }
         break;
-      case 'writearticle':
+      case 'writechapter':
         // if ($_SESSION['auth'] == "admin") {
           displayWriteChapterPage();
         // }

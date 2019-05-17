@@ -21,9 +21,9 @@ ob_start(); ?>
         <span class="card-title">Chapitre <?= $data['chapter_number'] . " : " . $data['title'] ?></span>
         <p><?= $data['summary'] ?>...</p>
       </div>
-      <div class="card-action">
-        <a href="index.php?action=chapter&chapterid= <?= $data['id'] ?>" class="">Voir le chapitre</a>
-        <a href="#">Voir tout les chapitres</a>
+      <div class="card-action row">
+        <a href="index.php?action=chapter&chapterid= <?= $data['id'] ?>" class="col s12 m5">Voir le chapitre</a>
+        <a href="#" class="col s12 m5">Voir tout les chapitres</a>
       </div>
     </div>
   <?php } ?>

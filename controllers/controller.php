@@ -68,10 +68,11 @@ function userLogIn($email, $password) {
   $response = $userManager->getInfo($email);
 
   if (password_verify($password, $response['password'])) {
-    $_SESSION['id'] = password_hash($response['pseudo'], PASSWORD_DEFAULT)
+    // $_SESSION['sessionID'] = password_hash($response['pseudo'], PASSWORD_DEFAULT);
+    $_SESSION['pseudo'] = $response['pseudo'];
     header('Location: index.php?action=home');
   } else {
-    header('Location: index.php?action=home&logintry=wrongpassword');
+    header('Location: index.php?action=home');
   }
 }
 
@@ -91,8 +92,12 @@ function userManage($user) {
   require('views/user-manage-display.php');
 }
 
-function userChangeInfo($userID, $parameter, $newInfo) {
+function userChangeInfo($pseudo, $parameter, $newInfo) {
   $userManager = new PaulOhl\Blog\Model\UserManager();
+
+  $userID = $userManager->getInfo($pseudo)['id'];
+  echo $userID;
+
   switch ($parameter) {
     case 'pseudo':
       if (preg_match("#^([a-zA-Z0-9-_]{3,36})$#", $newInfo)) {
@@ -132,20 +137,20 @@ function userChangeInfo($userID, $parameter, $newInfo) {
   if ($affectedLines === false) {
     throw new Exception("Impossible de changer le paramètre demandé !");
   } else {
-    if ($parameter != 'password') {
-      $_SESSION[$parameter] = $newInfo;
+    if ($parameter == 'pseudo') {
+      $_SESSION['pseudo'] = $newInfo;
     }
-    require('views/user-manage-display.php');
+    header('Location: index.php?action=manage&pseudo=' . $_SESSION['pseudo']);
   }
 }
 
-function userChangePassword($userID, $email, $parameter, $oldPassword, $newPassword, $verification) {
+function userChangePassword($user, $oldPassword, $newPassword, $verification) {
   if ($newPassword == $verification) {
     $userManager = new PaulOhl\Blog\Model\UserManager();
-    $response = $userManager->getInfo($email);
+    $response = $userManager->getInfo($user);
 
     if (password_verify($oldPassword, $response['password'])) {
-      userChangeInfo($userID, $parameter, $newPassword);
+      userChangeInfo($_SESSION['pseudo'], 'password', $newPassword);
     } else {
       throw new Exception("Ancien mot de passe incorrect !");
     }

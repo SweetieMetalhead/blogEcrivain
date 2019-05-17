@@ -1,15 +1,9 @@
 Comment intégrer les retours à la ligne dans la bdd ?
 
-Changer le système d'affichage de l'utilisateur afin de permettre d'aller voir d'autres comptes. -> ne plus utiliser $_SESSION
-
 Rouge quand Entrée mauvaise dans le signin
-
-
-à la fin : adapter le menu portable au menu pc
-
-
 
 Finir le systemen d’adminsitration des posts (supprimer, editer, differencier entre administrateur et ecrivain)
 Signalement des commentaires
-	La question des hashs et la sécurité en général
 Aborder la nouvelle version du site
+
+à la fin : adapter le menu portable au menu pc
