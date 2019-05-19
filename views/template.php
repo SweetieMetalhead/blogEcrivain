@@ -28,7 +28,7 @@
               <li><a href='#login-signin' class='modal-trigger'>Inscription/Connexion</a></li>
             <?php } else { ?>
               <!-- Dropdown Trigger -->
-              <li><a class='dropdown-trigger' href='#' data-target='usermenu'><?= $_SESSION['pseudo'] ?></a></li>
+              <li><a class='dropdown-trigger' href='#' data-target='usermenu'><?= $_SESSION['pseudo'] ?><span class="new badge" data-badge-caption="msg">4</span> </a></li>
 
               <!-- Dropdown Structure -->
               <ul id='usermenu' class='dropdown-content'>

@@ -37,7 +37,7 @@ ob_start(); ?>
 
 <section id="about" class="container row">
   <div class="col s12 m6 l4">
-    <img src="public/images/écrivain.jpg" alt="Cette personne est en réalité Mike Horn" class="responsive-img">
+    <img src="public/images/écrivain.jpg" alt="Cette personne est en réalité Mike Horn" class="materialboxed responsive-img">
   </div>
   <div class="col s12 m6 l8">
     <h4>Jean Forteroche</h4>

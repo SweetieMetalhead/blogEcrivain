@@ -45,17 +45,17 @@ ob_start(); ?>
         <form id="changepassword" action="index.php?action=changepassword" method="post" class="white">
           <div class="input-field col s12">
             <i class="material-icons prefix">lock</i>
-            <input type="text" name="oldpassword" id="oldpassword" required>
+            <input type="password" name="oldpassword" id="oldpassword" required>
             <label for="oldpassword" id="oldpasswordadvice" class="warning">Entrez votre ancien mot de passe</label>
           </div>
           <div class="input-field col s12">
             <i class="material-icons prefix">lock</i>
-            <input type="text" name="newpassword" id="newpassword" required>
+            <input type="password" name="newpassword" id="newpassword" required>
             <label for="newpassword" id="newpasswordadvice" class="warning">Entrez votre nouveau mot de passe</label>
           </div>
           <div class="input-field col s12">
             <i class="material-icons prefix">lock</i>
-            <input type="text" name="passwordconfirm" id="passwordconfirm" required>
+            <input type="password" name="passwordconfirm" id="passwordconfirm" required>
             <label for="passwordconfirm" id="confirmationadvice" class="warning">Confirmez votre nouveau mot de passe</label>
           </div>
           <div class="input-field col s12">
@@ -67,7 +67,7 @@ ob_start(); ?>
           <a class="btn center" id="accountdelete" href="">Supprimer le compte</a>
         </div>
       </div>
-      
+
       <script src="public/js/verification.js"></script>
       <script src="public/js/user-manage.js"></script>
 
