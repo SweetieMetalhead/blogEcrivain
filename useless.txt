@@ -1,8 +1,8 @@
-Comment intégrer les retours à la ligne dans la bdd ?
+Comment intégrer les retours à la ligne dans la bdd ? -> bosser sur Tiny MCE
 
 Rouge quand Entrée mauvaise dans le signin
 
-Finir le systemen d’adminsitration des posts (supprimer, editer, differencier entre administrateur et ecrivain)
+Finir le systeme d’administration des posts (supprimer, editer, differencier entre administrateur et ecrivain)
 Signalement des commentaires
 Aborder la nouvelle version du site
 
