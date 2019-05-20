@@ -1,5 +1,6 @@
 Comment intégrer les retours à la ligne dans la bdd ? -> bosser sur Tiny MCE
 
+Finir sytème d'inscription/Connexion
 Rouge quand Entrée mauvaise dans le signin
 
 Finir le systeme d’administration des posts (supprimer, editer, differencier entre administrateur et ecrivain)
@@ -7,3 +8,7 @@ Signalement des commentaires
 Aborder la nouvelle version du site
 
 à la fin : adapter le menu portable au menu pc
+
+
+
+Question : Variables constantes dans ChapterManager

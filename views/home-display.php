@@ -19,7 +19,7 @@ ob_start(); ?>
       <div class="card-content">
         <h6 class="grey-text"><?php echo ($i == 0) ? "Premier chapitre" : "Dernier chapitre paru" ?></h6>
         <span class="card-title">Chapitre <?= $data['chapter_number'] . " : " . $data['title'] ?></span>
-        <p><?= $data['summary'] ?>...</p>
+        <p><?= substr(strip_tags(html_entity_decode($data['content'])), 0, 400) ?>...</p>
       </div>
       <div class="card-action row">
         <a href="index.php?action=chapter&chapterid= <?= $data['id'] ?>" class="col s12 m5">Voir le chapitre</a>

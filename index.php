@@ -15,18 +15,18 @@ try {
         if (isset($_GET['chapterid']) && $_GET['chapterid'] > 0) {
           chapter(htmlspecialchars($_GET['chapterid']));
         } else {
-          throw new Exception("Erreur : Numéro de chapitre invalide");
+          throw new Exception("Numéro de chapitre invalide");
         }
         break;
       case 'addComment':
         if (isset($_GET['id']) && $_GET['id'] > 0) {
           if (!empty($_POST['comment'])) {
-            addComment($_GET['id'], $_SESSION['id'], $_POST['comment']); //il faudra mettre l'utilisateur actif à la place du 1
+            addComment($_GET['id'], $_SESSION['pseudo'], $_POST['comment']);
           } else {
             throw new Exception('Tous les champs ne sont pas remplis');
           }
         } else {
-          throw new Exception("Aucun identifiant de billet envoyé");
+          throw new Exception("Aucun identifiant de chapitre envoyé");
         }
         break;
       case 'signin':
@@ -64,12 +64,17 @@ try {
         }
         break;
       case 'writechapter':
-        // if ($_SESSION['auth'] == "admin") {
-          displayWriteChapterPage();
-        // }
+        displayWriteChapterPage();
         break;
-      case 'addarticle':
-        addPost(htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']));
+      case 'addchapter':
+        if (isset($_POST['publishlaterbool'])) {
+          $dateTime = htmlspecialchars($_POST['date']) . " " . htmlspecialchars($_POST['time']);
+        } else {
+          $dateTime = "NOW()";
+        }
+
+        addChapter($_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), $dateTime);
+        break;
       default:
         home();
         break;

@@ -18,19 +18,25 @@ function chapter($chapterID) {
   $commentManager = new PaulOhl\Blog\Model\CommentManager();
 
   $chapter = $chapterManager->getChapter($chapterID, 1);
+  $content = html_entity_decode($chapter['content']);
+
   $comments = $commentManager->getComments($chapterID);
 
   require('views/chapter-display.php');
 }
 
-function addComment($chapterID, $authorID, $comment) {
+function addComment($chapterID, $authorPseudo, $comment) {
   $commentManager = new PaulOhl\Blog\Model\CommentManager();
-  $affectedLines = $commentManager->postComment($chapterID, $authorID, $comment);
+  $userManager = new PaulOhl\Blog\Model\UserManager();
+
+  $userInfo = $userManager->getInfo($authorPseudo);
+
+  $affectedLines = $commentManager->postComment($chapterID, $userInfo['id'], $comment);
 
   if ($affectedLines === false) {
     throw new Exception('Impossible d\'ajouter le commentaire !');
   } else {
-    header('Location: index.php?action=article&article=' . $chapterID);
+    header('Location: index.php?action=chapter&chapterid=' . $chapterID);
   }
 }
 
@@ -159,8 +165,9 @@ function userChangePassword($user, $oldPassword, $newPassword, $verification) {
   }
 }
 
-function userDeleteAccount($userID) {
+function userDeleteAccount($pseudo) {
   $userManager = new PaulOhl\Blog\Model\UserManager();
+  $userID = $userManager->getInfo($pseudo)['id'];
   $affectedLines = $userManager->deleteAccount($userID);
 
   if ($affectedLines) {
@@ -173,16 +180,24 @@ function userDeleteAccount($userID) {
 }
 
 function displayWriteChapterPage() {
-  require('views/chapter-write.php');
+  $userManager = new PaulOhl\Blog\Model\UserManager();
+  $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
+  $response = $userManager->getInfo($_SESSION['pseudo']);
+  $chapterNumber = $chapterManager->countChapters();
+  if ($response['authorization'] == "author") {
+    require('views/chapter-write.php');
+  } else {
+    header('Location: index.php?action=home');
+  }
 }
 
-function addChapter($authorID, $title, $content) {
+function addChapter($chapterNumber, $title, $content, $publicationTime) {
   $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
-  $affectedLines = $chapterManager->addChapter($authorID, $title, $content);
+  $affectedLines = $chapterManager->addChapter($chapterNumber, $title, $content, $publicationTime);
 
   if ($affectedLines) {
     header('Location: index.php?action=home');
   } else {
-    throw new Exception("Impossible d'ajouter l'article.");
+    throw new Exception("Impossible d'ajouter le chapter.");
   }
 }

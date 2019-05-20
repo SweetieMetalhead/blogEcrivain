@@ -81,7 +81,7 @@ class UserManager extends Manager {
   public function deleteAccount($userID) {
     $db = $this->dbConnect();
 
-    $req = $db->prepare('DELETE FROM Users WHERE Users.id = ?');
+    $req = $db->prepare('DELETE FROM Users WHERE id = ?');
     $affectedLines = $req->execute(array($userID));
 
     return $affectedLines;

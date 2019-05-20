@@ -83,6 +83,7 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <!-- Parameters for Materialize -->
     <script>
       $(document).ready(function(){
         $('.sidenav').sidenav();
@@ -90,9 +91,27 @@
         $('.parallax').parallax();
         $('.tabs').tabs();
         $('.modal').modal();
-        $('.datepicker').datepicker({});
+        $('.datepicker').datepicker({
+          firstDay: 0,
+          format: 'ddd dd mmmm yyyy',
+          i18n: {
+            months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+            monthsShort: ["Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aou", "Sep", "Oct", "Nov", "Déc"],
+            weekdays: ["Lundi","Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+            weekdaysShort: ["Lun","Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+            weekdaysAbbrev: ["L","M", "M", "J", "V", "S", "D"],
+            cancel:'Annuler',
+            clear:'Effacer',
+            done:'Confirmer'
+          }
+        });
         $('.timepicker').timepicker({
-          twelveHour: false
+          twelveHour: false,
+          i18n: {
+            cancel:'Annuler',
+            clear:'Effacer',
+            done:'Confirmer'
+          }
         });
         $('.dropdown-trigger').dropdown({
           coverTrigger: false,

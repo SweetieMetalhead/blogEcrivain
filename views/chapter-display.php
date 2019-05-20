@@ -6,7 +6,7 @@ ob_start();?>
   <h3><?= 'Chapitre ' . htmlspecialchars($chapter['chapter_number']) . ' : ' . htmlspecialchars($chapter['title']) ?></h3>
   <h6><em>le <?= htmlspecialchars($chapter['publication_date_fr']) ?></em></h6>
   <p>
-    <?= htmlspecialchars($chapter['content']) ?> <br/>
+    <?= $content ?> <br/>
   </p>
 </div>
 <hr>

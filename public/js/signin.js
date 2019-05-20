@@ -30,10 +30,10 @@ form.elements.signinconfirm.addEventListener("blur", function() {
 });
 
 form.addEventListener("submit", function(e) {
-  pseudoCheck = pseudoVerify(form.elements.signinpseudo.value, document.getElementById('pseudoadvice').textContent);
-  emailCheck = emailVerify(form.elements.signinemail.value, document.getElementById('emailadvice').textContent);
-  passwordCheck = passwordVerify(form.elements.signinpassword.value, document.getElementById('passwordadvice').textContent);
-  confirmCheck = confirmPasswordVerify(form.elements.signinpassword.value, form.elements.signinconfirm.value, document.getElementById('confirmadvice').textContent);
+  pseudoCheck = pseudoVerify(form.elements.signinpseudo.value, document.getElementById('pseudoadvice').textContent)[0];
+  emailCheck = emailVerify(form.elements.signinemail.value, document.getElementById('emailadvice').textContent)[0];
+  passwordCheck = passwordVerify(form.elements.signinpassword.value, document.getElementById('passwordadvice').textContent)[0];
+  confirmCheck = confirmPasswordVerify(form.elements.signinpassword.value, form.elements.signinconfirm.value, document.getElementById('confirmadvice').textContent)[0];
   if (!pseudoCheck || !emailCheck || !passwordCheck || !confirmCheck) {
     e.preventDefault();
   }
