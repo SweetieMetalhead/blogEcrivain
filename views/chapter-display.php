@@ -35,16 +35,18 @@ ob_start();?>
   <?php
   while ($data = $comments->fetch()) {
   ?>
-    <div class="comment">
+    <div class="comment" id="<?= $data['commentID'] ?>">
       <p>
         <strong><?= htmlspecialchars($data['author']) ?></strong>
         <em>le <?= htmlspecialchars($data['creation_date_fr']) ?></em>
         <?php
-        if (isset($_SESSION['auth'])) {
-          if ($_SESSION["auth"] == "admin" || $_SESSION["pseudo"] == $data['author']) {
-            echo "<a href='index.php?action=deletecomment'>Supprimer ce commentaire</a>";
+        if (isset($_SESSION['pseudo'])) {
+          $userManager = new PaulOhl\Blog\Model\UserManager();
+          $userInfo = $userManager->getInfo($_SESSION['pseudo']);
+          if ($userInfo["authorization"] == "admin" || $userInfo["authorization"] == "author" || $_SESSION["pseudo"] == $data['author']) {
+            echo "<a href='index.php?action=deletecomment&comment=" . $data['commentID'] . "'>Supprimer ce commentaire</a>";
           } else {
-            echo "<a href='index.php?action=flag'>Signaler ce commentaire</a>";
+            echo "<a href='index.php?action=flag&comment=" . $data['commentID'] . "'>Signaler ce commentaire</a>";
           }
         }
        ?>

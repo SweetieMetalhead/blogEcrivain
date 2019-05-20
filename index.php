@@ -75,6 +75,15 @@ try {
 
         addChapter($_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), $dateTime);
         break;
+      case 'deletecomment':
+        deleteComment($_GET['comment'], $_SESSION['pseudo']);
+        break;
+      case 'flag':
+        flagComment($_GET['comment'], $_SESSION['pseudo']);
+        break;
+      case 'deleteflags':
+        deleteFlags($_GET['flaggedcomment']);
+        break;
       default:
         home();
         break;

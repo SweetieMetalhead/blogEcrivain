@@ -40,6 +40,77 @@ function addComment($chapterID, $authorPseudo, $comment) {
   }
 }
 
+function deleteComment($comment, $userDeleting) {
+  $commentManager = new PaulOhl\Blog\Model\CommentManager();
+  $userManager = new PaulOhl\Blog\Model\UserManager();
+
+  $userInfo = $userManager->getInfo($userDeleting);
+  $commentInfo = $commentManager->getInfo($comment);
+
+  if ($userInfo['authorization'] == 'admin' || $userInfo['authorization'] == 'author' || $userInfo['id'] == $commentInfo['author_id']) {
+    $affectedLines = $commentManager->deleteComment($comment);
+
+    if ($affectedLines) {
+      // Commentaire supprimé
+      if ($commentInfo['author_id'] == $userInfo['id']) { // If the author deleted the comment 
+        // Congratulations on successfully deleting the comment
+        
+      } else {
+        // Notify the author that his/her comment has been deleted and congratulations on successfully deleting the comment
+
+      }
+
+      header("Location: index.php?action=chapter&chapterid=" . $commentInfo['chapter_id']);
+    } else {
+      throw new Exception("Le commentaire n'a pas pu être supprimé");
+    }
+  }
+}
+
+function flagComment($comment, $userFlagging) {
+  $commentManager = new PaulOhl\Blog\Model\CommentManager();
+  $userManager = new PaulOhl\Blog\Model\UserManager();
+
+  $userInfo = $userManager->getInfo($userFlagging);
+  $commentInfo = $commentManager->getInfo($comment);
+  $flagInfo = $commentManager->getFlagInfo($comment);
+  $flagInfo = $flagInfo->fetch();
+
+  $affectedLines = false;
+
+  if($commentManager->countFlagsToday($userInfo['id']) >= 5) {
+    throw new Exception("Vous ne pouvez pas signaler plus de 5 commentaires par jour");
+  } elseif ($flagInfo['flagger_id'] == $userInfo['id']) {
+    throw new Exception("Vous avez déjà signalé ce commentaire");
+  } else {
+    // echo $commentManager->countFlagsToday($userInfo['id']);
+    $affectedLines = $commentManager->flagComment($comment, $userInfo['id']);
+  }
+
+  if ($affectedLines) {
+    header("Location: index.php?action=chapter&chapterid=" . $commentInfo['chapter_id'] . "#" . $comment);
+  } else {
+    throw new Exception("Le commentaire n'a pas pu être supprimé");
+  }
+}
+
+function deleteFlags($flaggedComment) {
+  $commentManager = new PaulOhl\Blog\Model\CommentManager();
+  $userManager = new PaulOhl\Blog\Model\UserManager();
+
+  $userInfo = $userManager->getInfo($_SESSION['pseudo']);
+
+  if ($userInfo['authorization'] == 'admin' || $userInfo['authorization'] == 'author') {
+    $affectedLines = $commentManager->deleteFlags($flaggedComment);
+
+    if ($affectedLines) {
+      header('Location: index.php?action=manage&pseudo=' . $_SESSION['pseudo']);
+    } else {
+      throw new Exception("Impossible de retirer le signalement");
+    }
+  }
+}
+
 function userSignIn($pseudo, $password, $email) {
   //testing regex match
   if (preg_match("#^([a-zA-Z0-9-_]{3,36})$#", $pseudo) && filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 5) {
