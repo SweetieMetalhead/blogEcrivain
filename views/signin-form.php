@@ -30,7 +30,7 @@
 <p id="msgPseudo"></p>
 <p id="msgEmail"></p>
 
-<script type="text/javascript">
+<script>
 function checkPseudo(val){
   $.ajax({
     type:"POST",                        //type of the request to make

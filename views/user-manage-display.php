@@ -73,14 +73,11 @@ ob_start(); ?>
     <script src="public/js/user-manage.js"></script>
   </li>
   <li>
-    <?php if (($userInfo['authorization'] == 'admin' || $userInfo['authorization'] == 'author')) {
-      $commentManager = new PaulOhl\Blog\Model\CommentManager();
-      $userManager = new PaulOhl\Blog\Model\UserManager();
-      $flags = $commentManager->getFlags(); ?>
+    <?php if (($userInfo['authorization'] == 'admin' || $userInfo['authorization'] == 'author')) {?>
       <div class="collapsible-header">
         <i class="material-icons">chat</i> Signalements de commentaires
       </div>
-      <div class="collapsible-body row white">
+      <div class="collapsible-body white">
         <table class="highlight">
           <thead>
             <tr>
@@ -92,7 +89,7 @@ ob_start(); ?>
           </thead>
 
           <tbody>
-            <?php while ($data = $flags->fetch()) { 
+            <?php while ($data = $flags->fetch()) {
               $flaggers = $commentManager->getFlagInfo($data['comment_id']);?>
               <tr>
                 <td><a href="index.php?action=manage&pseudo=<?= $data['author'] ?>"><?= $data['author'] ?></a></td>
@@ -111,6 +108,37 @@ ob_start(); ?>
           </tbody>
         </table>
       </div>
+    <?php } ?>
+  </li>
+  <li>
+    <?php if($userInfo['authorization'] == 'author') {?>
+      <div class="collapsible-header">
+        <i class="material-icons">book</i> Édition de Brouillons
+      </div>
+      <div class="collapsible-body row white">
+        <ul class="collection">
+          <?php while ($data = $drafts->fetch()) {
+            $content = strip_tags(html_entity_decode($data['content']));?>
+            <li class="collection-item avatar">
+              <a href="index.php?action=writechapter&edit=<?= $data['id'] ?>">
+                <i class="material-icons circle blue">edit</i>
+              </a>
+              <span class="title">Chapitre <?= $data["chapter_number"] . " : " . $data["title"]; ?></span>
+              <p class="grey-text">
+                <?php if (strlen($content) <= 200) {
+                  echo $content;
+                } else {
+                  echo substr($content, 0, 200) . "...";
+                } ?>
+              </p>
+              <a href="index.php?action=deletechapter&chapterid=<?= $data['id'] ?>" class="secondary-content">
+                <i class="material-icons red-text">delete</i>
+              </a>
+            </li>
+          <?php } ?>
+        </ul>
+      </div>
+
     <?php } ?>
   </li>
 </ul>

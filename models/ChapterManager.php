@@ -8,12 +8,11 @@ class ChapterManager extends Manager {
 
   const CHAPTER_NUMBER = 1;
   const CHAPTER_ID = 2;
-  const SUMMARY_LENGTH = 200;
 
   public function getChapters() {
     $db = $this->dbConnect();
 
-    $req = $db->query('SELECT id, title, chapter_number, content, LEFT(content, 200) AS summary, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters ORDER BY chapter_number LIMIT 0, 5');
+    $req = $db->query('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters WHERE publish_date <= NOW() AND is_draft = 0 ORDER BY chapter_number LIMIT 0, 5');
 
     return $req;
   }
@@ -31,28 +30,39 @@ class ChapterManager extends Manager {
   public function getLastChapter() {
     $db = $this->dbConnect();
 
-    $req = $db->query('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters ORDER BY chapter_number DESC LIMIT 0, 1');
+    $req = $db->query('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters WHERE publish_date <= NOW() AND is_draft = 0 ORDER BY chapter_number DESC LIMIT 0, 1');
 
     //print_r($req->fetch());
 
     return $req->fetch();
   }
 
-  public function getChapter($chapter, $mode) {
+  public function getChapter($chapter, $mode, $selectDrafts = false) {
     $db = $this->dbConnect();
 
-    if ($mode == 1) {
-      // Search by ID
-      $req = $db->prepare('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters WHERE id = ?');
-    } elseif ($mode == 2) {
-      // Search by chapter number
-      $req = $db->prepare('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters WHERE chapter_number = ?');
+    if (in_array($mode, [self::CHAPTER_NUMBER, self::CHAPTER_ID])) {
+      if ($mode == 1) {
+        // Search by ID
+        if ($selectDrafts) {
+          $req = $db->prepare('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters WHERE chapter_number = ?');
+        } else {
+          $req = $db->prepare('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters WHERE chapter_number = ? AND publish_date <= NOW() AND is_draft = 0');
+        }
+      } elseif ($mode == 2) {
+        // Search by chapter number
+        if ($selectDrafts) {
+          $req = $db->prepare('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters WHERE id = ?');
+        } else {
+          $req = $db->prepare('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters WHERE id = ? AND publish_date <= NOW() AND is_draft = 0');
+        }
+      } else {
+        throw new Exception("Mauvais mode entré");
+      }
     } else {
       throw new Exception("Mauvais mode entré");
     }
 
     $req->execute(array($chapter));
-
     $result = $req->fetch();
 
     return $result;
@@ -101,6 +111,42 @@ class ChapterManager extends Manager {
       $req = $db->prepare('INSERT INTO Chapters(chapter_number, title, content, publish_date) VALUES(?, ?, ?, ?)');
       $affectedLines = $req->execute(array($chapterNumber, $title, $content, $publishFormatted));
     }
+
+    return $affectedLines;
+  }
+
+  public function deleteChapter($chapterID) {
+    $db = $this->dbConnect();
+
+    $req = $db->prepare('DELETE FROM Chapters WHERE id = ?');
+    $affectedLines = $req->execute([$chapterID]);
+
+    return $affectedLines;
+  }
+
+  public function saveInDraft($chapterNumber, $title, $content) {
+    $db = $this->dbConnect();
+
+    $req = $db->prepare('INSERT INTO Chapters(chapter_number, title, content, publish_date, is_draft) VALUES(?, ?, ?, NOW(), 1)');
+    $affectedLines = $req->execute(array($chapterNumber, $title, $content));
+
+    return $affectedLines;
+  }
+
+  public function getDrafts() {
+    $db = $this->dbConnect();
+
+    $req = $db->query('SELECT id, title, chapter_number, content FROM Chapters WHERE is_draft = 1 ORDER BY chapter_number LIMIT 0, 5');
+
+    return $req;
+  }
+
+  public function updateChapter($chapterID, $chapterNumber, $title, $content, $isDraft) {
+    $db = $this->dbConnect();
+
+    $req = $db->prepare('UPDATE Chapters SET title = ?, chapter_number = ?, content = ?, is_draft = ? WHERE id = ?');
+
+    $affectedLines = $req->execute([$title, $chapterNumber, $content, $isDraft, $chapterID]);
 
     return $affectedLines;
   }

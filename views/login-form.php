@@ -20,7 +20,7 @@
 <p id="msgEmailLogin"></p>
 <p id="msgPassword"></p>
 
-<script type="text/javascript">
+<script>
 function checkEmail(val){
   $.ajax({
     type:"POST",

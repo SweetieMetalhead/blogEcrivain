@@ -7,20 +7,23 @@ require_once('models/UserManager.php');
 
 function home() {
   $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
-  $firstChapter = $chapterManager->getChapter(1, 2);
+  $firstChapter = $chapterManager->getChapter(1, $chapterManager::CHAPTER_NUMBER);
   $lastChapter = $chapterManager->getLastChapter();
 
   require('views/home-display.php');
 }
 
 function chapter($chapterID) {
+  $userManager = new PaulOhl\Blog\Model\UserManager();
   $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
   $commentManager = new PaulOhl\Blog\Model\CommentManager();
 
-  $chapter = $chapterManager->getChapter($chapterID, 1);
+  $chapter = $chapterManager->getChapter($chapterID, $chapterManager::CHAPTER_ID);
   $content = html_entity_decode($chapter['content']);
 
   $comments = $commentManager->getComments($chapterID);
+
+  $userInfo = $userManager->getInfo($_SESSION['pseudo']);
 
   require('views/chapter-display.php');
 }
@@ -52,9 +55,9 @@ function deleteComment($comment, $userDeleting) {
 
     if ($affectedLines) {
       // Commentaire supprimé
-      if ($commentInfo['author_id'] == $userInfo['id']) { // If the author deleted the comment 
+      if ($commentInfo['author_id'] == $userInfo['id']) { // If the author deleted the comment
         // Congratulations on successfully deleting the comment
-        
+
       } else {
         // Notify the author that his/her comment has been deleted and congratulations on successfully deleting the comment
 
@@ -166,6 +169,17 @@ function userManage($user) {
   $userManager = new PaulOhl\Blog\Model\UserManager();
   $userInfo = $userManager->getInfo($user);
 
+  if ($userInfo['authorization'] == "admin" || $userInfo['authorization'] == "author") {
+    $commentManager = new PaulOhl\Blog\Model\CommentManager();
+    $userManager = new PaulOhl\Blog\Model\UserManager();
+    $flags = $commentManager->getFlags();
+
+    if ($userInfo['authorization'] == "author") {
+      $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
+      $drafts = $chapterManager->getDrafts();
+    }
+  }
+
   require('views/user-manage-display.php');
 }
 
@@ -250,12 +264,16 @@ function userDeleteAccount($pseudo) {
   }
 }
 
-function displayWriteChapterPage() {
+function displayWriteChapterPage($chapterEditID = 0) {
   $userManager = new PaulOhl\Blog\Model\UserManager();
   $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
-  $response = $userManager->getInfo($_SESSION['pseudo']);
+  $userInfo = $userManager->getInfo($_SESSION['pseudo']);
   $chapterNumber = $chapterManager->countChapters();
-  if ($response['authorization'] == "author") {
+
+  if ($chapterEditID > 0) {
+    $chapter = $chapterManager->getChapter($chapterEditID, $chapterManager::CHAPTER_ID, true);
+  }
+  if ($userInfo['authorization'] == "author") {
     require('views/chapter-write.php');
   } else {
     header('Location: index.php?action=home');
@@ -269,6 +287,47 @@ function addChapter($chapterNumber, $title, $content, $publicationTime) {
   if ($affectedLines) {
     header('Location: index.php?action=home');
   } else {
-    throw new Exception("Impossible d'ajouter le chapter.");
+    throw new Exception("Impossible d'ajouter le chapitre.");
+  }
+}
+
+function deleteChapter($chapterID){
+  $userManager = new PaulOhl\Blog\Model\UserManager();
+  $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
+
+  $userInfo = $userManager->getInfo($_SESSION['pseudo']);
+
+  if ($userInfo['authorization'] == "author") {
+    $affectedLines = $chapterManager->deleteChapter($chapterID);
+
+    if ($affectedLines) {
+      header('Location: index.php?action=home');
+    } else {
+      throw new Exception("Impossible de supprimer le chapitre.");
+    }
+  } else {
+    header("Location: index.php?action=home");
+  }
+}
+
+function saveInDraft($chapterNumber, $title, $content) {
+  $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
+  $affectedLines = $chapterManager->saveInDraft($chapterNumber, $title, $content);
+
+  if ($affectedLines) {
+    header('Location: index.php?action=home');
+  } else {
+    throw new Exception("Impossible d'ajouter le Brouillon.");
+  }
+}
+
+function updateChapter($chapterID, $chapterNumber, $title, $content, $isDraft) {
+  $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
+  $affectedLines = $chapterManager->updateChapter($chapterID, $chapterNumber, $title, $content, $isDraft);
+
+  if ($affectedLines) {
+    header('Location: index.php?action=manage');
+  } else {
+    throw new Exception("Impossible de mettre le chapitre à jour.");
   }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,17 +28,16 @@
               <li><a href='#login-signin' class='modal-trigger'>Inscription/Connexion</a></li>
             <?php } else { ?>
               <!-- Dropdown Trigger -->
-              <li><a class='dropdown-trigger' href='#' data-target='usermenu'><?= $_SESSION['pseudo'] ?><span class="new badge" data-badge-caption="msg">4</span> </a></li>
-
-              <!-- Dropdown Structure -->
-              <ul id='usermenu' class='dropdown-content'>
-                <li><a href="index.php?action=manage&pseudo=<?= $_SESSION['pseudo'] ?>">Profil</a></li>
-                <?php if($_SESSION['pseudo'] == "Jean_Forteroche") {?>
-                  <li><a href="index.php?action=writechapter">Ecrire un chapitre</a></li>
-                <?php } ?>
-                <li><a href="index.php?action=logout">Se déconnecter</a></li>
-              </ul>
+              <li><a class='dropdown-trigger' href='#' data-target='usermenu'><?= $_SESSION['pseudo'] ?><span class="new badge" data-badge-caption="msg">4</span></a></li>
             <?php }?>
+          </ul>
+          <!-- Dropdown Structure -->
+          <ul id='usermenu' class='dropdown-content'>
+            <li><a href="index.php?action=manage&pseudo=<?= $_SESSION['pseudo'] ?>">Profil</a></li>
+            <?php if($_SESSION['pseudo'] == "Jean_Forteroche") {?>
+              <li><a href="index.php?action=writechapter">Ecrire un chapitre</a></li>
+            <?php } ?>
+            <li><a href="index.php?action=logout">Se déconnecter</a></li>
           </ul>
           <ul class="sidenav grey lighten-2" id="mobile-menu">
             <li><a href="index.php?action=home" class=""><i class="material-icons indigo-text text-darken-4">home</i> Accueil</a></li>
@@ -48,7 +47,7 @@
             <?php if (!isset($_SESSION['pseudo'])) { ?>
               <li><a href='#login-signin' class="modal-trigger">Inscription/Connexion</a></li>
             <?php } else { ?>
-              <li><a href='index.php?action=manage'><?= $_SESSION['pseudo'] ?></li>
+              <li><a href='index.php?action=manage'><?= $_SESSION['pseudo'] ?></a></li>
             <?php }?>
           </ul>
         </div>
@@ -87,6 +86,7 @@
     <script>
       $(document).ready(function(){
         $('.sidenav').sidenav();
+        $('.tooltipped').tooltip();
         $('.materialboxed').materialbox();
         $('.parallax').parallax();
         $('.tabs').tabs();

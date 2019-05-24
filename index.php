@@ -41,6 +41,8 @@ try {
       case 'manage':
         if (isset($_GET['pseudo'])) {
           userManage(htmlspecialchars($_GET['pseudo']));
+        } else {
+          userManage(htmlspecialchars($_SESSION['pseudo']));
         }
         break;
       case 'changepseudo':
@@ -64,16 +66,33 @@ try {
         }
         break;
       case 'writechapter':
-        displayWriteChapterPage();
+        if (isset($_GET['edit'])) {
+          displayWriteChapterPage($_GET['edit']);
+        } else {
+          displayWriteChapterPage();
+        }
         break;
       case 'addchapter':
-        if (isset($_POST['publishlaterbool'])) {
-          $dateTime = htmlspecialchars($_POST['date']) . " " . htmlspecialchars($_POST['time']);
+        if ($_POST['chapterID'] !== "") {
+          if ($_POST['saveindraft'] !== null) {
+            updateChapter($_POST['chapterID'], $_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), 1);
+          } else {
+            updateChapter($_POST['chapterID'], $_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), 0);
+          }
+        } elseif ($_POST['saveindraft'] !== null) {
+          saveInDraft($_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']));
+        } elseif (isset($_POST['publishlaterbool'])) {
+          addChapter($_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), htmlspecialchars($_POST['date']) . " " . htmlspecialchars($_POST['time']));
         } else {
-          $dateTime = "NOW()";
+          addChapter($_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), "NOW()");
         }
-
-        addChapter($_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), $dateTime);
+        break;
+      case 'deletechapter':
+        if (isset($_GET['chapterid']) && $_GET['chapterid'] > 0) {
+          deleteChapter(htmlspecialchars($_GET['chapterid']));
+        } else {
+          throw new Exception("Numéro de chapitre invalide");
+        }
         break;
       case 'deletecomment':
         deleteComment($_GET['comment'], $_SESSION['pseudo']);

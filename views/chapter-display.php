@@ -3,10 +3,30 @@ $title = 'Chapitre ' . htmlspecialchars($chapter['chapter_number']);
 
 ob_start();?>
 <div class="news container">
-  <h3><?= 'Chapitre ' . htmlspecialchars($chapter['chapter_number']) . ' : ' . htmlspecialchars($chapter['title']) ?></h3>
+  <h3>
+    <?= 'Chapitre ' . htmlspecialchars($chapter['chapter_number']) . ' : ' . htmlspecialchars($chapter['title']) ?>
+    <?php if ($userInfo['authorization'] == "author") { ?>
+      <a href="#deletechapter" class="btn-floating waves-effect waves-light red right tooltipped modal-trigger" data-tooltip="Supprimer le chapitre"><i class="material-icons">delete</i></a>
+      <a href="index.php?action=writechapter&edit=<?= htmlspecialchars($chapter['id']) ?>" class="btn-floating waves-effect waves-light blue right tooltipped" data-tooltip="Modifier le chapitre"><i class="material-icons">edit</i></a>
+    <?php } ?>
+  </h3>
+
+  <!-- Modal Structure -->
+  <div id="deletechapter" class="modal">
+    <div class="modal-content">
+      <h4>Attention</h4>
+      <p>Êtes-vous sûr de vouloir supprimer ce chapitre ?</p>
+      <p>Cette action est définitive.</p>
+    </div>
+    <div class="modal-footer">
+      <a href="index.php?action=deletechapter&chapterid=<?= htmlspecialchars($chapter['id']) ?>" class="modal-close waves-effect btn red">Supprimer</a>
+      <a href="" class="modal-close waves-effect transparent black-text btn-flat">Annuler</a>
+    </div>
+  </div>
+
   <h6><em>le <?= htmlspecialchars($chapter['publication_date_fr']) ?></em></h6>
-  <p>
-    <?= $content ?> <br/>
+  <p id="content">
+    <?= $content ?>
   </p>
 </div>
 <hr>

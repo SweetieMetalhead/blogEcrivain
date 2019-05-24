@@ -6,18 +6,19 @@ ob_start();?>
   <h1>Écriture de chapitre</h1>
 
   <form method="post" action="index.php?action=addchapter">
+    <input type="hidden" name="chapterID" value="<?php echo (isset($chapter['id'])) ? $chapter['id'] : "" ?>">
     <div class="row">
       <div class="input-field col s12 m10">
-        <input type="text" name="title" id="title">
+        <input type="text" name="title" id="title" value="<?php echo (isset($chapter['title'])) ? $chapter['title'] : "" ?>">
         <label for="title">Titre du chapitre</label>
       </div>
       <div class="input-field col s12 m2">
         <!-- <i class="material-icons prefix">clock</i> -->
-        <input type="number" name="chapternumber" id="chapternumber" value="<?= $chapterNumber+1 ?>">
+        <input type="number" name="chapternumber" id="chapternumber" value="<?php echo (isset($chapter['chapter_number'])) ? $chapter['chapter_number'] : $chapterNumber+1 ?>">
         <label for="chapternumber">Numéro</label>
       </div>
     </div>
-    <textarea id="content" name="content"></textarea>
+    <textarea id="content" name="content"><?php echo (isset($chapter['content'])) ? $chapter['content'] : "" ?></textarea>
     <p>
       <label>
         <input type="checkbox" name="publishlaterbool" id="publishlaterbool"/>
@@ -38,7 +39,7 @@ ob_start();?>
     </div>
     <div class="input-field center">
       <input type="submit" name="submit" class="btn" value="Poster le chapitre !">
-      <input type="reset" name="reset" id="saveindraft" class="btn" value="Sauvegarder dans les Brouillons">
+      <input type="submit" name="saveindraft" id="saveindraft" class="btn" value="Sauvegarder dans les Brouillons">
     </div>
   </form>
 </div>

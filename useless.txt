@@ -2,4 +2,14 @@ Aborder la nouvelle version du site
 
 à la fin : adapter le menu portable au menu pc
 
-Question : Variables constantes dans ChapterManager, comment flag ou supprimer un commentaire sans quitter la page, Entorse à MVC -> "user-manage-display.php" ligne 79 est-ce un pb ?
+pour la sécurité des chapitres : Authoriser uniquement les tags intégrés dans l'éditeur
+
+pour les notifications :
+SELECT COUNT(DISTINCT val)
+FROM demos;
+
+
+
+
+Question 42:
+Kerberos
