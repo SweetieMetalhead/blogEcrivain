@@ -10,7 +10,22 @@ function home() {
   $firstChapter = $chapterManager->getChapter(1, $chapterManager::CHAPTER_NUMBER);
   $lastChapter = $chapterManager->getLastChapter();
 
+  if (isset($_SESSION['pseudo'])) {
+    $userManager = new PaulOhl\Blog\Model\UserManager();
+    $userInfo = $userManager->getInfo($_SESSION['pseudo']);
+    $lastReadChapter = $chapterManager->getChapter($userInfo['last_read_chapter'], $chapterManager::CHAPTER_ID);
+  }
+
   require('views/home-display.php');
+}
+
+function convertNumberToID($chapterNumber){
+  $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
+
+  $chapter = $chapterManager->getChapter($chapterNumber, $chapterManager::CHAPTER_NUMBER);
+  $chapterID = $chapter['id'];
+
+  chapter($chapterID);
 }
 
 function chapter($chapterID) {
@@ -20,12 +35,25 @@ function chapter($chapterID) {
 
   $chapter = $chapterManager->getChapter($chapterID, $chapterManager::CHAPTER_ID);
   $content = html_entity_decode($chapter['content']);
-
   $comments = $commentManager->getComments($chapterID);
-
+  $numberOfChapters = $chapterManager->countChapters(false);
   $userInfo = $userManager->getInfo($_SESSION['pseudo']);
+  $affectedLines = $userManager->saveChapter($userInfo['id'], $chapterID);
 
-  require('views/chapter-display.php');
+  if ($affectedLines === false) {
+    throw new Exception("Impossible d'enregistrer le dernier chapitre lu");
+  } else {
+    require('views/chapter-display.php');
+  }
+}
+
+function displayAllChapters($page = 1) {
+  $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
+
+  $chapters = $chapterManager->getChapters($page);
+  $numberOfChapters = $chapterManager->countChapters(false);
+
+  require('views/all-chapters-display.php');
 }
 
 function addComment($chapterID, $authorPseudo, $comment) {
@@ -53,7 +81,9 @@ function deleteComment($comment, $userDeleting) {
   if ($userInfo['authorization'] == 'admin' || $userInfo['authorization'] == 'author' || $userInfo['id'] == $commentInfo['author_id']) {
     $affectedLines = $commentManager->deleteComment($comment);
 
-    if ($affectedLines) {
+    if ($affectedLines === false) {
+      throw new Exception("Le commentaire n'a pas pu être supprimé");
+    } else {
       // Commentaire supprimé
       if ($commentInfo['author_id'] == $userInfo['id']) { // If the author deleted the comment
         // Congratulations on successfully deleting the comment
@@ -64,9 +94,9 @@ function deleteComment($comment, $userDeleting) {
       }
 
       header("Location: index.php?action=chapter&chapterid=" . $commentInfo['chapter_id']);
-    } else {
-      throw new Exception("Le commentaire n'a pas pu être supprimé");
     }
+  } else {
+    throw new Exception("Vous n'êtes pas authorisé à supprimer ce commentaire");
   }
 }
 
@@ -139,10 +169,6 @@ function userSignIn($pseudo, $password, $email) {
   }
 }
 
-function displaySignInPage() {
-  require('views/signin-display.php');
-}
-
 function userLogIn($email, $password) {
   $userManager = new PaulOhl\Blog\Model\UserManager();
   $response = $userManager->getInfo($email);
@@ -152,12 +178,12 @@ function userLogIn($email, $password) {
     $_SESSION['pseudo'] = $response['pseudo'];
     header('Location: index.php?action=home');
   } else {
-    header('Location: index.php?action=home');
+    header('Location: index.php?action=loginpage');
   }
 }
 
 function displayLogInPage() {
-  require('views/login-display.php');
+  home();
 }
 
 function userLogout() {
@@ -329,5 +355,17 @@ function updateChapter($chapterID, $chapterNumber, $title, $content, $isDraft) {
     header('Location: index.php?action=manage');
   } else {
     throw new Exception("Impossible de mettre le chapitre à jour.");
+  }
+}
+
+function countNotifications($user) {
+  $userManager = new PaulOhl\Blog\Model\UserManager();
+  $commentManager = new PaulOhl\Blog\Model\CommentManager();
+  $userInfo = $userManager->getInfo($user);
+  if ($userInfo['authorization'] == "admin" || $userInfo['authorization'] == "author") {
+    $adminNotifications = $commentManager->countAdminNotifications();
+    return $adminNotifications;
+  } else {
+    return 0;
   }
 }

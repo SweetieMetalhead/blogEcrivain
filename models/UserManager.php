@@ -88,4 +88,11 @@ class UserManager extends Manager {
 
     return $affectedLines;
   }
+
+  public function saveChapter($userID, $chapterID) {
+    $db = $this->dbConnect();
+
+    $req = $db->prepare('UPDATE Users SET last_read_chapter = ? WHERE id = ?');
+    $req->execute([$chapterID, $userID]);
+  }
 }

@@ -9,18 +9,24 @@ class ChapterManager extends Manager {
   const CHAPTER_NUMBER = 1;
   const CHAPTER_ID = 2;
 
-  public function getChapters() {
+  public function getChapters($page) {
     $db = $this->dbConnect();
 
-    $req = $db->query('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters WHERE publish_date <= NOW() AND is_draft = 0 ORDER BY chapter_number LIMIT 0, 5');
+    $page = (int) $page;
+
+    $req = $db->query('SELECT id, title, chapter_number, content, DATE_FORMAT(publish_date, \'%d/%m/%Y à %Hh%imin%ss\') AS publication_date_fr FROM Chapters WHERE publish_date <= NOW() AND is_draft = 0 ORDER BY chapter_number LIMIT ' . ($page-1) * 5 . ' , 5');
 
     return $req;
   }
 
-  public function countChapters() {
+  public function countChapters($countDrafts = true) {
     $db = $this->dbConnect();
 
-    $req = $db->query('SELECT COUNT(id) AS NumberOfChapters FROM Chapters');
+    if ($countDrafts) {
+      $req = $db->query('SELECT COUNT(id) AS NumberOfChapters FROM Chapters');
+    } else {
+      $req = $db->query('SELECT COUNT(id) AS NumberOfChapters FROM Chapters WHERE is_draft = 0');
+    }
 
     $chapterNumber = $req->fetch();
 

@@ -3,6 +3,8 @@ let pseudoCheck = false;
 let emailCheck = false;
 let passwordCheck = false;
 let confirmCheck = false;
+let pseudoDoublesCheck = false;
+let emailDoublesCheck = false;
 
 form.elements.signinpseudo.addEventListener("blur", function() {
   let verification = pseudoVerify(form.elements.signinpseudo.value);
@@ -34,16 +36,11 @@ form.addEventListener("submit", function(e) {
   emailCheck = emailVerify(form.elements.signinemail.value, document.getElementById('emailadvice').textContent)[0];
   passwordCheck = passwordVerify(form.elements.signinpassword.value, document.getElementById('passwordadvice').textContent)[0];
   confirmCheck = confirmPasswordVerify(form.elements.signinpassword.value, form.elements.signinconfirm.value, document.getElementById('confirmadvice').textContent)[0];
-  if (!pseudoCheck || !emailCheck || !passwordCheck || !confirmCheck) {
+  if (!pseudoCheck || !emailCheck || !passwordCheck || !confirmCheck || !pseudoDoublesCheck || !emailDoublesCheck) {
     e.preventDefault();
   }
 });
 
 document.getElementById('lalala').addEventListener("click", function(){
-  console.log(pseudoCheck + ", " + emailCheck + ", " + passwordCheck + ", " + confirmCheck);
+  console.log(pseudoCheck + ", " + emailCheck + ", " + passwordCheck + ", " + confirmCheck + ", " + pseudoDoublesCheck + ", " + emailDoublesCheck);
 });
-
-function open(whichOne) {
-  var instance = M.Modal.getInstance(document.getElementById('login-signin'));
-  instance.open();
-}

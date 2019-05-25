@@ -6,6 +6,9 @@ if (session_status() == PHP_SESSION_NONE) {
 require('controllers/controller.php');
 
 try {
+  // if (isset($_SESSION['pseudo'])) {
+  //   countNotifications($_SESSION['pseudo']);
+  // }
   if (isset($_GET['action'])) {
     switch ($_GET['action']) {
       case 'home':
@@ -14,8 +17,18 @@ try {
       case 'chapter':
         if (isset($_GET['chapterid']) && $_GET['chapterid'] > 0) {
           chapter(htmlspecialchars($_GET['chapterid']));
-        } else {
+        } elseif (isset($_GET['chapternumber']) && $_GET['chapternumber'] > 0) {
+          convertNumberToID(htmlspecialchars($_GET['chapternumber']));
+        }
+        else {
           throw new Exception("Numéro de chapitre invalide");
+        }
+        break;
+      case 'allchapters':
+        if (isset($_GET['page']) && (int) $_GET['page'] > 0) {
+          displayAllChapters($_GET['page']);
+        } else {
+          displayAllChapters();
         }
         break;
       case 'addComment':
@@ -34,6 +47,9 @@ try {
         break;
       case 'login':
         userLogIn(htmlspecialchars($_POST['loginemail']), htmlspecialchars($_POST['loginpassword']));
+        break;
+      case 'loginpage':
+        displayLogInPage();
         break;
       case 'logout':
         userLogout();

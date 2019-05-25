@@ -34,9 +34,8 @@ class CommentManager extends Manager {
   public function deleteComment($commentID) {
     $db = $this->dbConnect();
 
-    $req = $db->prepare(' DELETE Comments, FlaggedComments 
-                          FROM Comments 
-                          INNER JOIN FlaggedComments ON Comments.id = FlaggedComments.comment_id 
+    $req = $db->prepare(' DELETE Comments
+                          FROM Comments
                           WHERE Comments.id = ?');
     $affectedLines = $req->execute(array($commentID));
 
@@ -46,13 +45,13 @@ class CommentManager extends Manager {
   public function getFlags() {
     $db = $this->dbConnect();
 
-    $req = $db->query('SELECT Chapters.chapter_number AS chapter_number, 
-                                FlaggedComments.comment_id AS comment_id, 
-                                Users.pseudo AS author, 
-                                LEFT(Comments.content, 60) AS comment_sumup, 
+    $req = $db->query('SELECT Chapters.chapter_number AS chapter_number,
+                                FlaggedComments.comment_id AS comment_id,
+                                Users.pseudo AS author,
+                                LEFT(Comments.content, 60) AS comment_sumup,
                                 COUNT(FlaggedComments.flagger_id) AS number_of_flaggers
                           FROM FlaggedComments, Comments, Users, Chapters
-                          WHERE FlaggedComments.comment_id = Comments.id 
+                          WHERE FlaggedComments.comment_id = Comments.id
                           AND Comments.author_id = Users.id
                           AND Comments.chapter_id = Chapters.id
                           GROUP BY FlaggedComments.comment_id');
@@ -71,7 +70,7 @@ class CommentManager extends Manager {
 
   public function flagComment($commentID, $userFlagging) {
     $db = $this->dbConnect();
-    
+
     $req = $db->prepare('INSERT INTO FlaggedComments(comment_id, flagger_id, flag_time) VALUES(?, ?, NOW())');
     $affectedLines = $req->execute(array($commentID, $userFlagging));
 
@@ -96,5 +95,14 @@ class CommentManager extends Manager {
     $affectedLines = $req->execute(array($flaggedComment));
 
     return $affectedLines;
+  }
+
+  public function countAdminNotifications() {
+    $db = $this->dbConnect();
+
+    $req = $db->query('SELECT COUNT(DISTINCT Comments.id) AS number_of_flags FROM Comments, FlaggedComments WHERE Comments.id = FlaggedComments.comment_id');
+
+    $result = $req->fetch();
+    return $result['number_of_flags'];
   }
 }

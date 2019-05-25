@@ -2,13 +2,9 @@ Aborder la nouvelle version du site
 
 à la fin : adapter le menu portable au menu pc
 
-pour la sécurité des chapitres : Authoriser uniquement les tags intégrés dans l'éditeur
-
 pour les notifications :
 SELECT COUNT(DISTINCT val)
 FROM demos;
-
-
 
 
 Question 42:

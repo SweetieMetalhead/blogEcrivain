@@ -12,8 +12,20 @@ ob_start(); ?>
     <h3 class="center">Les Chapitres</h3>
     <hr>
   </div>
-  <?php
-  for ($i=0; $i <= 1; $i++) {
+  <?php if (isset($_SESSION['pseudo']) && $userInfo['last_read_chapter'] > 0): ?>
+    <div class="card col s12 hoverable">
+      <div class="card-content">
+        <h6 class="grey-text">dernier chapitre lu</h6>
+        <span class="card-title">Chapitre <?= $lastReadChapter['chapter_number'] . " : " . $lastReadChapter['title'] ?></span>
+        <p><?= substr(strip_tags(html_entity_decode($lastReadChapter['content'])), 0, 400) ?>...</p>
+      </div>
+      <div class="card-action row">
+        <a href="index.php?action=chapter&chapterid= <?= $lastReadChapter['id'] ?>" class="col s12 m5">Voir le chapitre</a>
+        <a href="index.php?action=allchapters&page=<?= ceil($lastReadChapter['chapter_number'] / 5) ?>" class="col s12 m5">Voir tout les chapitres</a>
+      </div>
+    </div>
+  <?php endif; ?>
+  <?php for ($i=0; $i <= 1; $i++) {
     $data = ($i == 0) ? $firstChapter : $lastChapter ?>
     <div class="card col s12 m6 hoverable">
       <div class="card-content">
@@ -23,7 +35,7 @@ ob_start(); ?>
       </div>
       <div class="card-action row">
         <a href="index.php?action=chapter&chapterid= <?= $data['id'] ?>" class="col s12 m5">Voir le chapitre</a>
-        <a href="#" class="col s12 m5">Voir tout les chapitres</a>
+        <a href="index.php?action=allchapters&page=<?= ceil($data['chapter_number'] / 5) ?>" class="col s12 m5">Voir tout les chapitres</a>
       </div>
     </div>
   <?php } ?>

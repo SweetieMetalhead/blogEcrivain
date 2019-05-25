@@ -22,13 +22,19 @@
             <i class="material-icons">menu</i>
           </a>
           <ul class="right hide-on-med-and-down">
-            <li><a href="#photos" class="">Chapitres</a></li>
+            <li><a href="index.php?action=allchapters" class="">Chapitres</a></li>
             <li><a href="index.php#about" class="">À propos</a></li>
             <?php if (!isset($_SESSION['pseudo'])) { ?>
               <li><a href='#login-signin' class='modal-trigger'>Inscription/Connexion</a></li>
             <?php } else { ?>
               <!-- Dropdown Trigger -->
-              <li><a class='dropdown-trigger' href='#' data-target='usermenu'><?= $_SESSION['pseudo'] ?><span class="new badge" data-badge-caption="msg">4</span></a></li>
+              <li>
+                <a class='dropdown-trigger' href='#' data-target='usermenu'><?= $_SESSION['pseudo'] ?>
+                  <?php if (countNotifications($_SESSION['pseudo']) > 0): ?>
+                    <span class="new badge" data-badge-caption="msg"><?= countNotifications($_SESSION['pseudo']); ?></span>
+                  <?php endif; ?>
+                </a>
+              </li>
             <?php }?>
           </ul>
           <!-- Dropdown Structure -->

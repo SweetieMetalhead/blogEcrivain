@@ -28,7 +28,13 @@ ob_start();?>
   <p id="content">
     <?= $content ?>
   </p>
+
+  <div class="center">
+    <a class="<?php if($chapter['chapter_number'] <= 1) { echo 'disabled'; } ?> btn" href="index.php?action=chapter&chapternumber=<?= $chapter['chapter_number'] - 1 ?>">Chapitre précédent</a>
+    <a class="<?php if($chapter['chapter_number'] >= $numberOfChapters) { echo 'disabled'; } ?> btn" href="index.php?action=chapter&chapternumber=<?= $chapter['chapter_number'] + 1 ?>">Chapitre suivant</a>
+  </div>
 </div>
+
 <hr>
 
 <div class="container">

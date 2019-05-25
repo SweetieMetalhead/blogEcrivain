@@ -1,14 +1,14 @@
 <h4 id="lalala" class="flow-text indigo-text text-darken-4">Inscription</h4>
 
 <form id="signin-form" method="POST" action="index.php?action=signin">
-  <div class="input-field">
+  <div id="signinpseudoform" class="input-field">
     <i class="material-icons prefix">person</i>
-    <input type="text" name="signinpseudo" id="signinpseudo" required onkeyup="checkPseudo(this.value)">
+    <input type="text" name="signinpseudo" id="signinpseudo" required onkeyup="checkInfo(this.value, 'pseudo')">
     <label for="signinpseudo" id="pseudoadvice">Votre pseudo</label>
   </div>
   <div class="input-field">
     <i class="material-icons prefix">email</i>
-    <input type="email" name="signinemail" id="signinemail" required onkeyup="checkEmail(this.value)">
+    <input type="email" name="signinemail" id="signinemail" required onkeyup="checkInfo(this.value, 'email')">
     <label for="signinemail" id="emailadvice">Votre e-mail</label>
   </div>
   <div class="input-field">
@@ -27,31 +27,41 @@
   </div>
 </form>
 
-<p id="msgPseudo"></p>
-<p id="msgEmail"></p>
-
 <script>
-function checkPseudo(val){
-  $.ajax({
-    type:"POST",                        //type of the request to make
-    url:"models/validator.php",              //server the request should be sent
-    data:"pseudo="+val,               //the data to send to the server
-    success: function(data){            //the function to be called if the request succeeds
-      $("#msgPseudo").html(data);
-    }
-  });
+function checkInfo(val, infoTested){
+  if (infoTested == "pseudo") {
+    $.ajax({
+      type:"POST",
+      url:"models/validator.php",
+      data:"pseudo="+val,
+      success: function(data){
+        if (!data) {
+          $("#pseudoadvice").html("Votre pseudo est déjà utilisé");
+          pseudoDoublesCheck = false;
+        } else {
+          $("#pseudoadvice").html("");
+          pseudoDoublesCheck = true;
+        }
+      }
+    });
+  } else if (infoTested == "email") {
+    $.ajax({
+      type:"POST",
+      url:"models/validator.php",
+      data:"email="+val,
+      success: function(data){
+        if (!data) {
+          $("#emailadvice").html("Votre email est déjà utilisé");
+          emailDoublesCheck = false;
+        } else {
+          $("#emailoadvice").html("");
+          emailDoublesCheck = true;
+        }
+      }
+    });
+  }
 }
 
-function checkEmail(val){
-  $.ajax({
-    type:"POST",                        //type of the request to make
-    url:"models/validator.php",              //server the request should be sent
-    data:"email="+val,               //the data to send to the server
-    success: function(data){            //the function to be called if the request succeeds
-      $("#msgEmail").html(data);
-    }
-  });
-}
 </script>
 
 <script src="public/js/verification.js"></script>

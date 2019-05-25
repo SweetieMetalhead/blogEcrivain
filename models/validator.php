@@ -3,25 +3,23 @@ require_once('../models/UserManager.php');
 
 if (isset($_POST['email'])) {
   checkExistingUser(htmlspecialchars($_POST['email']));
+  $loginEmail = $_POST['email'];
 }
 if (isset($_POST['pseudo'])) {
   checkExistingUser(htmlspecialchars($_POST['pseudo']));
 }
-if (isset($_POST['email']) && isset($_POST['password'])) {
-  userLogIn(htmlspecialchars($_POST['email']), htmlspecialchars($_POST['password']));
+if (isset($_POST['password'])) {
+  echo $loginEmail;
+  userLogIn($loginEmail, $_POST['password']);
 }
 
 function checkExistingUser($user) { //finds user by email or pseudo
   $userManager = new PaulOhl\Blog\Model\UserManager();
 
   if ($userManager->checkExistingUser($user)) {
-    echo "Tout va bien <3";
+    echo true;
   } else {
-    if (filter_var($user, FILTER_VALIDATE_EMAIL)) {
-      echo "Email déjà utilisé";
-    } else {
-      echo "Pseudo déjà utilisé";
-    }
+    echo false;
   }
 }
 
@@ -30,8 +28,8 @@ function userLogIn($email, $password) {
   $response = $userManager->getInfo($email);
 
   if (password_verify($password, $response['password'])) {
-    echo "C'est le bon mot de passe";
+    echo true;
   } else {
-    echo $response['password'];
+    echo false;
   }
 }
