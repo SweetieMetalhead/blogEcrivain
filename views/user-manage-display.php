@@ -4,7 +4,13 @@ $title = "Aller simple pour l'Alaska - Votre compte";
 ob_start(); ?>
 
 <div class="container">
-  <h2>Votre compte :</h2>
+  <h2>
+    <?php if ($userInfo['pseudo'] == $_SESSION['pseudo']): ?>
+      Votre compte :
+    <?php else: ?>
+      Le compte :
+    <?php endif; ?>
+  </h2>
 
   <h3> <?= $userInfo['pseudo'] ?> </h3>
 
