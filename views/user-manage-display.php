@@ -76,6 +76,9 @@ ob_start(); ?>
     <?php if (($userInfo['authorization'] == 'admin' || $userInfo['authorization'] == 'author')) {?>
       <div class="collapsible-header">
         <i class="material-icons">chat</i> Signalements de commentaires
+        <?php if (countNotifications($_SESSION['pseudo']) > 0): ?>
+          <span class="new badge" data-badge-caption="msg"><?= countNotifications($_SESSION['pseudo']); ?></span>
+        <?php endif; ?>
       </div>
       <div class="collapsible-body white">
         <table class="highlight">

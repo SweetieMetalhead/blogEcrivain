@@ -47,13 +47,26 @@
           </ul>
           <ul class="sidenav grey lighten-2" id="mobile-menu">
             <li><a href="index.php?action=home" class=""><i class="material-icons indigo-text text-darken-4">home</i> Accueil</a></li>
-            <li><a href="#">Chapitres</a></li>
-            <li><a href="#">À propos</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="index.php?action=allchapters" class="">Chapitres</a></li>
+            <li><a href="index.php#about" class="">À propos</a></li>
             <?php if (!isset($_SESSION['pseudo'])) { ?>
-              <li><a href='#login-signin' class="modal-trigger">Inscription/Connexion</a></li>
+              <li><a href='#login-signin' class='modal-trigger'>Inscription/Connexion</a></li>
             <?php } else { ?>
-              <li><a href='index.php?action=manage'><?= $_SESSION['pseudo'] ?></a></li>
+              <li><hr></li>
+              <li><a class="subheader"><?= $_SESSION['pseudo'] ?></a></li>
+              <li>
+                <a href="index.php?action=manage&pseudo=<?= $_SESSION['pseudo'] ?>">
+                  Profil
+                  <?php if (countNotifications($_SESSION['pseudo']) > 0): ?>
+                    <span class="new badge" data-badge-caption="msg"><?= countNotifications($_SESSION['pseudo']); ?></span>
+                  <?php endif; ?>
+                </a>
+
+              </li>
+              <?php if($_SESSION['pseudo'] == "Jean_Forteroche") {?>
+                <li><a href="index.php?action=writechapter">Ecrire un chapitre</a></li>
+              <?php } ?>
+              <li><a href="index.php?action=logout">Se déconnecter</a></li>
             <?php }?>
           </ul>
         </div>

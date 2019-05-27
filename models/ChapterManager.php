@@ -147,12 +147,17 @@ class ChapterManager extends Manager {
     return $req;
   }
 
-  public function updateChapter($chapterID, $chapterNumber, $title, $content, $isDraft) {
+  public function updateChapter($chapterID, $chapterNumber, $title, $content, $publishDateTime, $isDraft) {
     $db = $this->dbConnect();
 
-    $req = $db->prepare('UPDATE Chapters SET title = ?, chapter_number = ?, content = ?, is_draft = ? WHERE id = ?');
-
-    $affectedLines = $req->execute([$title, $chapterNumber, $content, $isDraft, $chapterID]);
+    if ($publishDateTime == "NOW()") {
+      $req = $db->prepare('UPDATE Chapters SET title = ?, chapter_number = ?, content = ?, publish_date = NOW(), is_draft = ? WHERE id = ?');
+      $affectedLines = $req->execute([$title, $chapterNumber, $content, $isDraft, $chapterID]);
+    } else {
+      $formattedDateTime = $this->formatDate($publishDateTime);
+      $req = $db->prepare('UPDATE Chapters SET title = ?, chapter_number = ?, content = ?, publish_date = ?, is_draft = ? WHERE id = ?');
+      $affectedLines = $req->execute([$title, $chapterNumber, $content, $formattedDateTime, $isDraft, $chapterID]);
+    }
 
     return $affectedLines;
   }

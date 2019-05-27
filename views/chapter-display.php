@@ -5,7 +5,7 @@ ob_start();?>
 <div class="news container">
   <h3>
     <?= 'Chapitre ' . htmlspecialchars($chapter['chapter_number']) . ' : ' . htmlspecialchars($chapter['title']) ?>
-    <?php if ($userInfo['authorization'] == "author") { ?>
+    <?php if (isset($_SESSION['pseudo']) && $userInfo['authorization'] == "author") { ?>
       <a href="#deletechapter" class="btn-floating waves-effect waves-light red right tooltipped modal-trigger" data-tooltip="Supprimer le chapitre"><i class="material-icons">delete</i></a>
       <a href="index.php?action=writechapter&edit=<?= htmlspecialchars($chapter['id']) ?>" class="btn-floating waves-effect waves-light blue right tooltipped" data-tooltip="Modifier le chapitre"><i class="material-icons">edit</i></a>
     <?php } ?>

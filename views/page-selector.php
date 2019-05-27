@@ -10,18 +10,18 @@ $maxPageNumber = ceil($numberOfChapters / 5);
 
 <div class="container center selector">
   <a href="index.php?action=allchapters&page=<?= $pageNumber-1 ?>" class="btn waves-effect waves-light <?php if($pageNumber <= 1) { echo "disabled"; } ?>"><i class="material-icons">arrow_back</i></a>
-  <?php if ($pageNumber > 2): ?>
+  <?php if ($pageNumber >= 2): ?>
     <a href="index.php?action=allchapters&page=1" class="btn waves-effect waves-light">1</a>
   <?php endif; ?>
   <?php if ($pageNumber >= 4): ?>
     <a class="btn waves-effect waves-light">...</a>
   <?php endif; ?>
-  <?php if ($pageNumber >= 2): ?>
-    <a href="index.php?action=allchapters&page=<?= $pageNumber - 1 ?>" class="btn waves-effect waves-light"><?= $pageNumber - 1 ?></a>
+  <?php if ($pageNumber > 2): ?>
+    <a href="index.php?action=allchapters&page=<?= $pageNumber - 1 ?>" class="btn waves-effect waves-light hide-on-small-only"><?= $pageNumber - 1 ?></a>
   <?php endif; ?>
   <a class="btn indigo"><?= $pageNumber ?></a>
-  <?php if ($pageNumber <= $maxPageNumber - 2): ?>
-    <a href="index.php?action=allchapters&page=<?= $pageNumber + 1 ?>" class="btn waves-effect waves-light"><?= $pageNumber + 1 ?></a>
+  <?php if ($pageNumber < $maxPageNumber - 2): ?>
+    <a href="index.php?action=allchapters&page=<?= $pageNumber + 1 ?>" class="btn waves-effect waves-light hide-on-small-only"><?= $pageNumber + 1 ?></a>
   <?php endif; ?>
   <?php if ($pageNumber <= $maxPageNumber - 3): ?>
     <a class="btn waves-effect waves-light">...</a>

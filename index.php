@@ -6,9 +6,6 @@ if (session_status() == PHP_SESSION_NONE) {
 require('controllers/controller.php');
 
 try {
-  // if (isset($_SESSION['pseudo'])) {
-  //   countNotifications($_SESSION['pseudo']);
-  // }
   if (isset($_GET['action'])) {
     switch ($_GET['action']) {
       case 'home':
@@ -89,11 +86,17 @@ try {
         }
         break;
       case 'addchapter':
-        if ($_POST['chapterID'] !== "") {
+        if ($_POST['chapterID'] !== "") { // If the chapter already exists
           if ($_POST['saveindraft'] !== null) {
-            updateChapter($_POST['chapterID'], $_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), 1);
+            //Option to save in draft
+            updateChapter($_POST['chapterID'], $_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), "NOW()", 1);
           } else {
-            updateChapter($_POST['chapterID'], $_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), 0);
+            //Option not to save in draft
+            if (isset($_POST['publishlaterbool'])) {
+              updateChapter($_POST['chapterID'], $_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), htmlspecialchars($_POST['date']) . " " . htmlspecialchars($_POST['time']), 0);
+            } else {
+              updateChapter($_POST['chapterID'], $_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']), "NOW()", 0);
+            }
           }
         } elseif ($_POST['saveindraft'] !== null) {
           saveInDraft($_POST['chapternumber'], htmlspecialchars($_POST['title']), htmlspecialchars($_POST['content']));

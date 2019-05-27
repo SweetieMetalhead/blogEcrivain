@@ -37,8 +37,12 @@ function chapter($chapterID) {
   $content = html_entity_decode($chapter['content']);
   $comments = $commentManager->getComments($chapterID);
   $numberOfChapters = $chapterManager->countChapters(false);
-  $userInfo = $userManager->getInfo($_SESSION['pseudo']);
-  $affectedLines = $userManager->saveChapter($userInfo['id'], $chapterID);
+  if (isset($_SESSION['pseudo'])) {
+    $userInfo = $userManager->getInfo($_SESSION['pseudo']);
+    $affectedLines = $userManager->saveChapter($userInfo['id'], $chapterID);
+  } else {
+    $affectedLines = true;
+  }
 
   if ($affectedLines === false) {
     throw new Exception("Impossible d'enregistrer le dernier chapitre lu");
@@ -347,9 +351,9 @@ function saveInDraft($chapterNumber, $title, $content) {
   }
 }
 
-function updateChapter($chapterID, $chapterNumber, $title, $content, $isDraft) {
+function updateChapter($chapterID, $chapterNumber, $title, $content, $publishDateTime, $isDraft) {
   $chapterManager = new PaulOhl\Blog\Model\ChapterManager();
-  $affectedLines = $chapterManager->updateChapter($chapterID, $chapterNumber, $title, $content, $isDraft);
+  $affectedLines = $chapterManager->updateChapter($chapterID, $chapterNumber, $title, $content, $publishDateTime, $isDraft);
 
   if ($affectedLines) {
     header('Location: index.php?action=manage');
