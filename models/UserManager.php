@@ -2,7 +2,7 @@
 
 namespace PaulOhl\Blog\Model;
 
-require_once('/Applications/MAMP/htdocs/blogEcrivain/models/Manager.php');
+require_once('Manager.php');
 
 class UserManager extends Manager {
   public function signIn($pseudo, $password, $email){
