@@ -66,12 +66,16 @@ function addComment($chapterID, $authorPseudo, $comment) {
 
   $userInfo = $userManager->getInfo($authorPseudo);
 
-  $affectedLines = $commentManager->postComment($chapterID, $userInfo['id'], $comment);
-
-  if ($affectedLines === false) {
-    throw new Exception('Impossible d\'ajouter le commentaire !');
-  } else {
+  if(preg_match("#^\\s*$#", $comment)) {
     header('Location: index.php?action=chapter&chapterid=' . $chapterID);
+  } else {
+    $affectedLines = $commentManager->postComment($chapterID, $userInfo['id'], $comment);
+
+    if ($affectedLines === false) {
+      throw new Exception('Impossible d\'ajouter le commentaire !');
+    } else {
+      header('Location: index.php?action=chapter&chapterid=' . $chapterID);
+    }
   }
 }
 

@@ -101,10 +101,10 @@ ob_start(); ?>
             <?php while ($data = $flags->fetch()) {
               $flaggers = $commentManager->getFlagInfo($data['comment_id']);?>
               <tr>
-                <td><a href="index.php?action=manage&pseudo=<?= $data['author'] ?>"><?= $data['author'] ?></a></td>
-                <td><a href="index.php?action=chapter&chapterid=<?= $data['chapter_number'] . "#" . $data['comment_id'] ?>"><?= $data['comment_sumup'] ?></a></td>
-                <td><a class="dropdown-trigger btn" data-target='dropdown<?= $data['comment_id'] ?>'><?= $data['number_of_flaggers'] ?><span class="hide-on-small-only"> personnes</span></a></td>
-                <td><a class="btn" href="index.php?action=deleteflags&flaggedcomment=<?= $data['comment_id'] ?>">Ignorer</a></td>
+                <td><a href="index.php?action=manage&pseudo=<?= htmlspecialchars($data['author']) ?>"><?= htmlspecialchars($data['author']) ?></a></td>
+                <td><a href="index.php?action=chapter&chapterid=<?= htmlspecialchars($data['chapter_id']) . "#" . htmlspecialchars($data['comment_id']) ?>"><?= htmlspecialchars($data['comment_sumup']) ?></a></td>
+                <td><a class="dropdown-trigger btn" data-target='dropdown<?= htmlspecialchars($data['comment_id']) ?>'><?= htmlspecialchars($data['number_of_flaggers']) ?><span class="hide-on-small-only"> personnes</span></a></td>
+                <td><a class="btn" href="index.php?action=deleteflags&flaggedcomment=<?= htmlspecialchars($data['comment_id']) ?>">Ignorer</a></td>
               </tr>
               <!-- Dropdown Structure -->
               <ul id='dropdown<?= $data['comment_id'] ?>' class='dropdown-content'>

@@ -45,7 +45,7 @@ class CommentManager extends Manager {
   public function getFlags() {
     $db = $this->dbConnect();
 
-    $req = $db->query('SELECT Chapters.chapter_number AS chapter_number,
+    $req = $db->query('SELECT Chapters.id AS chapter_id,
                                 FlaggedComments.comment_id AS comment_id,
                                 Users.pseudo AS author,
                                 LEFT(Comments.content, 60) AS comment_sumup,
